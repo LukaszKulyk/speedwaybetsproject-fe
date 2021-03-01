@@ -1,0 +1,40 @@
+<template>
+  <div>
+    <b-form action="#" @submit.prevent="login">
+      <b-form-group id="email" label="Email Adress" label-for="email-input">
+        <b-form-input id="email-input" v-model="form.email" type="text" required placeholder="Email"></b-form-input>
+      </b-form-group>
+      <b-form-group id="password" label="Password" label-for="password-input">
+        <b-form-input id="password-input" v-model="form.password" type="password" required placeholder="Password"></b-form-input>
+      </b-form-group>
+      <!--<b-button  id="submit-button" class="login-widget credentials" type="submit">LOGIN</b-button>-->
+      <b-button id="login-component-button" type="submit">LOGIN</b-button>
+    </b-form>
+  </div>
+</template>
+
+<script>
+/* eslint-disable */
+export default {
+  data() {
+    return {
+      form: {
+        email: '',
+        password: ''
+        }
+    }
+  },
+  methods:{
+    login() {
+      this.$store.dispatch('retrieveToken', {
+        email: this.form.email,
+        password: this.form.password
+      })
+        .then(this.$router.push('/'))
+    }
+  }
+}
+</script>
+
+<style>
+</style>
