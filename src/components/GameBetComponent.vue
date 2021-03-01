@@ -29,7 +29,7 @@ export default {
             //gameWhichAlreadyExists: {},
         }
     },
-    created(){
+    /*created(){
         this.$store.dispatch('getSpecificGameBet', this.game);
         //this.bet.games = this.preapreGamesBetObject();  
         //console.log(this.gameWhichAlreadyExists);
@@ -39,7 +39,7 @@ export default {
             //this.gameWhichAlreadyExists = this.$store.getters.getSpecificGameBet
 			return this.$store.getters.getSpecificGameBet;
 		}
-	},
+	},*/
     methods: {
         onSubmit(event) {
             this.$store.dispatch('createNewBet', {

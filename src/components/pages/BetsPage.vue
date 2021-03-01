@@ -51,16 +51,27 @@ export default {
                 lem: 'Teper'
             },
             submitted: false,
+            //gameWeekGames: [],
+            //allGameFromCurrentGameWeekWhichHassBeenBet: [],
         }
     },
     created(){
         this.$store.dispatch('getNextGameWeekGames');
+        this.$store.dispatch('getAllUserBetsForCurrentGameWeek');
         //this.bet.games = this.preapreGamesBetObject();  
     },
     computed: {
 		nextGameWeekGames(){
+            //this.gameWeekGames = this.$store.getters.getNextGameWeekGames
 			return this.$store.getters.getNextGameWeekGames;
-		}
+		},
+        allUserBetsForCurrentGameWeek(){
+            //this.gameWeekGames = this.$store.getters.getNextGameWeekGames
+			return this.$store.getters.getAllUserBetsForCurrentGameWeek;
+		},
+        /*checkIfGameHasAlreadybeenBetByUser(){
+
+        }*/
         /*setAllGamesFormValues(){
             this.bet.test = preapreGamesBetObject();
         }*/

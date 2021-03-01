@@ -20,6 +20,7 @@ export default new Vuex.Store({
 
         //values
         lastGameWeekWhichHasBeenPlayed: 1,
+		currentGameWeek: 2,
 
         //schedule
         fullSchedule: [],
@@ -38,6 +39,7 @@ export default new Vuex.Store({
 
 		//bets
 		specificGameBet: {},
+		allUserBetsForCurrentGameWeek: {},
 
     },
     getters: {
@@ -88,6 +90,9 @@ export default new Vuex.Store({
 		//Bet
 		getSpecificGameBet(state) {
 			return state.specificGameBet;
+		},
+		getAllUserBetsForCurrentGameWeek(state) {
+			return state.allUserBetsForCurrentGameWeek;
 		}
 
     },
@@ -139,7 +144,10 @@ export default new Vuex.Store({
 		//Bets
 		setSpecificGameBet(state, game) {
 			state.specificGameBet = game;
-		}
+		},
+		setAllUserBetsForCurrentGameWeek(state, bets) {
+			state.allUserBetsForCurrentGameWeek = bets;
+		},
 
     },
     actions: {
@@ -262,6 +270,7 @@ export default new Vuex.Store({
 			axios.post(this.state.domain + 'bet', {
 				gameId: bet.gameId,
 				userId: this.state.userId,
+				gameWeek: this.state.currentGameWeek,
 				homeTeamPoints: bet.homeTeamPoints,
 				awayTeamPoints: bet.awayTeamPoints
 			},
@@ -285,5 +294,13 @@ export default new Vuex.Store({
 					context.commit('setSpecificGameBet', game)
 				})
 		},
+		getAllUserBetsForCurrentGameWeek(context) {
+			axios.get(this.state.domain + 'bet/user/' + this.state.userId + '/game-week/' + this.state.currentGameWeek)
+				.then(bets => {
+					//return response;
+					//console.log(standings);
+					context.commit('setAllUserBetsForCurrentGameWeek', bets);
+				})
+        },
     }
 });
