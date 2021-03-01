@@ -5,6 +5,12 @@
             <h2>GAME WEEK {{nextGameWeekGames.data.schedule[0].gameWeek}}</h2>
             <div v-for="(game, index) in nextGameWeekGames.data.schedule" :key="index">
                 <GameBetComponent :game="game"></GameBetComponent>
+                <!--<div v-if="found">
+                <div v-for="(bet, index) in allUserBetsForCurrentGameWeek.data.bets" :key="index">
+                    <div v-if="game._id === bet.gameId">
+                        <GameBetComponent :game="game" :bet="bet"></GameBetComponent>
+                    </div>
+                </div>-->
             </div>
 <!------------------------------------------------------->
             <!--<div v-for="(game, index) in nextGameWeekGames.data.schedule" :key="index">-->

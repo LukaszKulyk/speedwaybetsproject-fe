@@ -26,20 +26,26 @@ export default {
                 homeTeamPoints: '',
                 awayTeamPoints: ''
             },
+            hasBeenAlreadyBet: false,
+            //gameBet: {},
             //gameWhichAlreadyExists: {},
         }
     },
-    /*created(){
+    
+    created(){
         this.$store.dispatch('getSpecificGameBet', this.game);
         //this.bet.games = this.preapreGamesBetObject();  
         //console.log(this.gameWhichAlreadyExists);
+        this.checkIfGameWasAlreadyBet(this.hasBeenAlreadyBet, this.game, this.bet);
+        
     },
     computed: {
 		getSpecificGameBet(){
             //this.gameWhichAlreadyExists = this.$store.getters.getSpecificGameBet
+            //this.gameBet = this.$store.getters.getSpecificGameBet;
 			return this.$store.getters.getSpecificGameBet;
 		}
-	},*/
+	},
     methods: {
         onSubmit(event) {
             this.$store.dispatch('createNewBet', {
@@ -51,6 +57,18 @@ export default {
         onReset(event) {
             this.bet.homeTeamPoints = '',
             this.bet.awayTeamPoints = ''
+        },
+        checkIfGameWasAlreadyBet(hasBeenAlreadyBet, game, bet){
+            let allUserBetsForCurrentGameWeek = this.$store.getters.getAllUserBetsForCurrentGameWeek.data.bets;
+            //console.log(allUserBetsForCurrentGameWeek);
+            allUserBetsForCurrentGameWeek.forEach(function(b){
+                if (b.gameId === game._id) {
+                    hasBeenAlreadyBet = true;
+                    bet.homeTeamPoints = b.homeTeamPoints;
+                    bet.awayTeamPoints = b.awayTeamPoints;
+                    //console.log('checked it');
+                }
+            })
         }
     },
 }
