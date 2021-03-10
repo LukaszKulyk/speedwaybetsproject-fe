@@ -1,5 +1,5 @@
 <template>
-    <!---<b-container>--->
+    <b-container>
         <div>
             <h2>{{ translations.pol }}</h2>
             <p><strong>{{translations.infoAboutProject.pol}}</strong></p>
@@ -19,7 +19,7 @@
             </div>
             <p><strong>{{translations.drawInformation.pol}}</strong></p>
         </div>
-    <!---</b-container>--->
+    </b-container>
 </template>
 <script>
 /* eslint-disable */

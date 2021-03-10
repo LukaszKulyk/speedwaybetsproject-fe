@@ -10,7 +10,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
 		//domain
-		domain: 'http://localhost:3003/',
+		domain: 'http://localhost:3000/',
 
         //Users
         token: localStorage.getItem('token') || null,
@@ -19,7 +19,7 @@ export default new Vuex.Store({
 		isAdmin: localStorage.getItem('isAdmin') || null,
 
         //values
-        lastGameWeekWhichHasBeenPlayed: 1,
+        //lastGameWeekWhichHasBeenPlayed: 1,
 		currentGameWeek: 2,
 
         //schedule
@@ -29,6 +29,7 @@ export default new Vuex.Store({
         lastGameWeekResults: [],
 		nextGameWeekToBeBet: 2,
 		nextGameWeekGames: [],
+		allPlayedGamesResults: [],
 
         //standings
         allStandings: [],
@@ -40,6 +41,7 @@ export default new Vuex.Store({
 		//bets
 		specificGameBet: {},
 		allUserBetsForCurrentGameWeek: {},
+		allUserBets: {},
 
     },
     getters: {
@@ -73,6 +75,9 @@ export default new Vuex.Store({
 		getNextGameWeekGames(state) {
 			return state.nextGameWeekGames;
 		},
+		getAllPlayedGamesResults(state) {
+			return state.allPlayedGamesResults;
+		},
         
         //standings
         getAllStandings(state) {
@@ -93,7 +98,10 @@ export default new Vuex.Store({
 		},
 		getAllUserBetsForCurrentGameWeek(state) {
 			return state.allUserBetsForCurrentGameWeek;
-		}
+		},
+		getAllUserBets(state) {
+			return state.allUserBets;
+		},
 
     },
     mutations: {
@@ -127,6 +135,9 @@ export default new Vuex.Store({
 		setNextGameWeekGames(state, nextGameWeekGames) {
 			state.nextGameWeekGames = nextGameWeekGames;
 		},
+		setAllPlayedGamesResults(state, allPlayedGamesResults) {
+			state.allPlayedGamesResults = allPlayedGamesResults;
+		},
         
         //standings
         setAllStandings(state, standings) {
@@ -148,6 +159,9 @@ export default new Vuex.Store({
 		setAllUserBetsForCurrentGameWeek(state, bets) {
 			state.allUserBetsForCurrentGameWeek = bets;
 		},
+		setAllUserBets(state, bets){
+			state.allUserBets = bets;
+		}
 
     },
     actions: {
@@ -193,6 +207,12 @@ export default new Vuex.Store({
 					axios.post('/logout')
 						.then(response => {
 							localStorage.removeItem('token');
+							//localStorage.removeItem('username');
+							//localStorage.removeItem('userId');
+							//localStorage.removeItem('isAdmin');
+							this.state.username = null;
+							this.state.userId = null;
+							this.state.isAdmin = null;
 							context.commit('destroyToken');
 							resolve(response);
 						})
@@ -222,14 +242,14 @@ export default new Vuex.Store({
 					context.commit('setLastGameWeekPlayed', lastPlayed);
 				})
         },
-        getLastGameWeekResults(context) {
+        /*getLastGameWeekResults(context) {
 			axios.get(this.state.domain + 'schedule/played/last/game_week/' + this.state.lastGameWeekWhichHasBeenPlayed)
 				.then(lastPlayed => {
 					//return response;
 					//console.log(standings);
 					context.commit('setLastGameWeekResults', lastPlayed);
 				})
-        },
+        },*/
 		getNextGameWeekGames(context) {
 			axios.get(this.state.domain + 'schedule/scheduled/next/game_week/' + this.state.nextGameWeekToBeBet)
 				.then(nextGameWeekGames => {
@@ -238,6 +258,12 @@ export default new Vuex.Store({
 					context.commit('setNextGameWeekGames', nextGameWeekGames);
 				})
         },
+		getAllPlayedGamesResults(context) {
+			axios.get(this.state.domain + 'schedule/played/all')
+				.then(allPlayedGamesResults => {
+					context.commit('setAllPlayedGamesResults', allPlayedGamesResults)
+				})
+		},
         
         //standings
         getAllStandings(context) {
@@ -302,5 +328,54 @@ export default new Vuex.Store({
 					context.commit('setAllUserBetsForCurrentGameWeek', bets);
 				})
         },
+		updateExistingBet(context, bet) {
+
+			let data = [];
+			let homeTeamPoints = { 
+				propName: 'homeTeamPoints', 
+				value: bet.homeTeamPoints  
+			}
+			let awayTeamPoints = { 
+				propName: 'awayTeamPoints', 
+				value: bet.awayTeamPoints 
+			}
+
+			data.push(homeTeamPoints);
+			data.push(awayTeamPoints);
+
+			axios.patch(this.state.domain + 'bet/' + bet.betId, data,
+			{
+				headers: {
+					'Authorization': 'Bearer ' + this.state.token
+				}
+			}
+			)
+				.then(response => {
+					console.log(response)
+				})
+				.catch(error => {
+					return error;
+				})
+		},
+
+		getAllUserBets(context) {
+			axios.get(this.state.domain + 'bet/user/' + this.state.userId + '/all')
+				.then(bets => {
+					context.commit('setAllUserBets', bets)
+				})
+		},
+
+		//new idea
+		/*isUserLoggedIn(context) {
+			if(this.state.token !== null) {
+				//this.getAllUserBets;
+				this.actions.getAllUserBets();
+				console.log('User is logged in');
+			}
+			else {
+				console.log('user is not logged in');
+				return null;
+			}
+		}*/
     }
 });

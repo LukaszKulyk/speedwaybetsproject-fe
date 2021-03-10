@@ -1,30 +1,24 @@
 <template>
     <div>
-        <h1>Schedule</h1>
-        <h3><strong>{{ test.gameWeekTitle }}</strong></h3>
-        <div v-for="game in fullSchedule.data.schedule" :key="game">
-            <div>
-                <p><strong>{{ game.homeTeam }} - {{ game.homeTeam }}</strong></p>
-                <p v-if="game.gameResult.homeTeamPoints"><strong>{{ game.gameResult.homeTeamPoints }} : {{ game.gameResult.awayTeamPoints }}</strong></p>
-            </div>
-        </div>
-        <!--<div v-for="(game, index) in fullSchedule.data.schedule" :key="index">
-            <div>
-                <div v-if="index === 0">
-                    <p>This is game 0</p>
-                </div>
-                <div v-else-if="game.gameWeek === gameWeek">
-                    <p>This game matches</p>
-                </div>
-                <div v-else-if="game.gameWeek !== gameWeek">
-                    <p>This game NOT matches</p>
+        <b-container>
+            <h1>Schedule</h1>
+            <div v-if="this.$store.getters.loggedIn">
+                <div v-if="getAllNeededValuesFromUserBets().length > 0">
+                    <b-table striped hover responsive :items="getAllNeededValuesFromUserBets()" :fields="scheduleTableColumnsForLoggedUser"></b-table>
                 </div>
                 <div v-else>
-                    <p>Something went wrong</p>
+                    <h2>Schedule for this season is not prepared yet. Please come again later. We promise, we are working on that!</h2>
                 </div>
             </div>
-        </div>-->
-        <!--<div><p>{{splitScheduleByGameWeeks()}}</p></div>-->
+            <div v-else>
+                <div v-if="getAllScheduleDataNeededForNOTLoggedInViewer().length > 0">
+                    <b-table striped hover responsive :items="getAllScheduleDataNeededForNOTLoggedInViewer()" :fields="scheduleTableColumnsDefault"></b-table>
+                </div>
+                <div v-else>
+                    <h2>Schedule for this season is not prepared yet. Please came again later. We promise, we are working on that!</h2>
+                </div>
+            </div>
+        </b-container>
     </div>
 </template>
 
@@ -33,54 +27,98 @@
 export default {
     data() {
         return {
-            //gameWeek: 1,
             test: {
                 gameWeekTitle: 'First'
-            }
+            },
+            scheduleTableColumnsForLoggedUser: ['week', 'date', 'status', 'game', 'result', 'bet', 'points'],
+            scheduleTableColumnsDefault: ['week', 'date', 'status', 'game', 'result'],
+            scheduleTableValuesForLoggedUser: [{week: 'week'}, {date: 'date'}, {status:'status'}, {game:'game'}, {result:'result'}, {bet:'bet'}, {points:'points'}],
+            scheduleTableValuesDefault: [{week: 'week'}, {date: 'date'}, {status:'status'}, {game:'game'}, {result:'result'}],
         }
     },
     created(){
-        this.$store.dispatch('getFullSchedule');  
+        this.$store.dispatch('getFullSchedule'); 
+        this.getAllUserBetsIfIsLoggedIn();
+        this.getAllScheduleDataNeededForNOTLoggedInViewer();
+        this.getAllNeededValuesFromUserBets();
     },
-    computed: {
-		fullSchedule(){
+    methods: {
+        getAllUserBetsIfIsLoggedIn(){
+			if(this.$store.getters.loggedIn === true) {
+                this.$store.dispatch('getAllUserBets');
+            }
+            else {
+                return false;
+            }
+		},
+        fullSchedule(){
 			return this.$store.getters.getFullSchedule;
 		},
-        /*checkAndUpdateGameWeek(game){
-            if (game !== gameWeek) {
-                this.gameWeek = game
-                return true;
-            }
-        }*/
-	},
-    methods: {
-        splitScheduleByGameWeeks() {
-            let allGames = this.$store.getters.getFullSchedule.data.schedule;
-            console.log(allGames);
-            const gameWeeksArray = [];
-            let currentGameWeek = [];
-            for (let i = 0; i <= allGames.length; i++) {
-                if(i === 0){
-                    currentGameWeek.push(allGames[i]);
-                    //console.log(currentGameWeek);
+        getAllNeededValuesFromUserBets(){
+            let allBets = this.$store.getters.getAllUserBets.data.bets;
+            let fullSchedule = this.$store.getters.getFullSchedule.data.schedule;
+            let arrayOfValuesForLoggedInUser = [];
+
+            fullSchedule.forEach(function(game){
+
+                    allBets.forEach(function(bet){
+                        if(bet.gameId === game._id){
+                            if(game.isGamePlayed === true){
+                                const valuesToTable = {
+                                    week: game.gameWeek,
+                                    date: game.scheduledGameDate.replace(/\T.*/,''),
+                                    status: game.gameStatus,
+                                    game: game.homeTeam + ' - ' + game.awayTeam,
+                                    result: game.gameResult.homeTeamPoints + ' : ' + game.gameResult.awayTeamPoints,
+                                    bet: bet.homeTeamPoints + ':' + bet.awayTeamPoints,
+                                    points: bet.collectedPoints
+                                }
+                                arrayOfValuesForLoggedInUser.push(valuesToTable);
+                            }
+                            else{
+                                const valuesToTable = {
+                                    week: game.gameWeek,
+                                    date: game.scheduledGameDate.replace(/\T.*/,''),
+                                    status: game.gameStatus,
+                                    game: game.homeTeam + ' - ' + game.awayTeam,
+                                    result: '-',
+                                    bet: '-',
+                                    points: '-'
+                                }
+                                arrayOfValuesForLoggedInUser.push(valuesToTable);
+                            }
+                        }
+                    })
+            });
+            return arrayOfValuesForLoggedInUser;
+        },
+        getAllScheduleDataNeededForNOTLoggedInViewer(){
+            let fullSchedule = this.$store.getters.getFullSchedule.data.schedule;
+            let arrayOfValuesForNOTLoggedInViewer = [];
+
+            fullSchedule.forEach(function(game){
+                if(game.isGamePlayed === true){
+                    const valuesToTable = {
+                            week: game.gameWeek,
+                            date: game.scheduledGameDate.replace(/\T.*/,''),
+                            status: game.gameStatus,
+                            game: game.homeTeam + ' - ' + game.awayTeam,
+                            result: game.gameResult.homeTeamPoints + ' : ' + game.gameResult.awayTeamPoints,
+                        }
+                    arrayOfValuesForNOTLoggedInViewer.push(valuesToTable);
                 }
-                else if(allGames[i].gameWeek === allGames[i - 1].gameWeek) {
-                    currentGameWeek.push(allGames[i]);
-                    //console.log(currentGameWeek);
+                else{
+                    const valuesToTable = {
+                            week: game.gameWeek,
+                            date: game.scheduledGameDate.replace(/\T.*/,''),
+                            status: game.gameStatus,
+                            game: game.homeTeam + ' - ' + game.awayTeam,
+                            result: '-',
+                        }
+                    arrayOfValuesForNOTLoggedInViewer.push(valuesToTable);
                 }
-                else if(allGames[i].gameWeek !== allGames[i - 1]) {
-                    gameWeeksArray.push(currentGameWeek);
-                    currentGameWeek = [];
-                    currentGameWeek.push(allGames[i]);
-                    //console.log(currentGameWeek);
-                }
-                else {
-                    console.log('something went wrong.');
-                }
-                //console.log(console.log(gameWeeksArray));
-            }
-            console.log(gameWeeksArray);
-            //return currentGameWeek;
+            });
+            return arrayOfValuesForNOTLoggedInViewer;
         }
     }
     

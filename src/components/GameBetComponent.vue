@@ -1,17 +1,11 @@
 <template>
     <b-form inline @submit="onSubmit" @reset="onReset">
         <div>
-        <!--<b-form-row>-->
             <label><strong>{{ game.homeTeam }} - {{ game.awayTeam }}</strong></label>
             <b-form-input size="sm" type="number" min="15" max="75" id="home-team-points" v-model="bet.homeTeamPoints" required></b-form-input>
             <label><strong>:</strong></label>
             <b-form-input size="sm" type="number" min="15" max="75" id="away-team-points" v-model="bet.awayTeamPoints" required></b-form-input>
-        <!--</b-form-row>-->
-        <!--<b-form-row>-->
-            <!--<b-button type="submit" variant="primary">Submit</b-button>-->
-            <input type="submit" value="Send">
-            <input type="reset" value="Clear">
-        <!--</b-form-row>-->
+            <b-button type="submit">Send</b-button>
         </div>
     </b-form>
 </template>
@@ -24,49 +18,51 @@ export default {
         return {
             bet: {
                 homeTeamPoints: '',
-                awayTeamPoints: ''
-            },
-            hasBeenAlreadyBet: false,
-            //gameBet: {},
-            //gameWhichAlreadyExists: {},
+                awayTeamPoints: '',
+                hasBeenAlreadyBet: false,
+                betId: '',
+            }
         }
     },
     
     created(){
         this.$store.dispatch('getSpecificGameBet', this.game);
-        //this.bet.games = this.preapreGamesBetObject();  
-        //console.log(this.gameWhichAlreadyExists);
-        this.checkIfGameWasAlreadyBet(this.hasBeenAlreadyBet, this.game, this.bet);
+        this.checkIfGameWasAlreadyBet(this.game, this.bet);
         
     },
-    computed: {
-		getSpecificGameBet(){
-            //this.gameWhichAlreadyExists = this.$store.getters.getSpecificGameBet
-            //this.gameBet = this.$store.getters.getSpecificGameBet;
-			return this.$store.getters.getSpecificGameBet;
-		}
-	},
     methods: {
         onSubmit(event) {
-            this.$store.dispatch('createNewBet', {
+
+            if(this.bet.hasBeenAlreadyBet == true) {
+                this.$store.dispatch('updateExistingBet', {
+                    betId: this.bet.betId,
+					homeTeamPoints: this.bet.homeTeamPoints,
+					awayTeamPoints: this.bet.awayTeamPoints,
+				})
+                .then(this.checkIfGameWasAlreadyBet(this.game, this.bet))
+            }
+            else{
+                this.$store.dispatch('createNewBet', {
                     gameId: this.game._id,
 					homeTeamPoints: this.bet.homeTeamPoints,
 					awayTeamPoints: this.bet.awayTeamPoints,
 				})
+                .then(this.checkIfGameWasAlreadyBet(this.game, this.bet))
+            }
         },
         onReset(event) {
             this.bet.homeTeamPoints = '',
             this.bet.awayTeamPoints = ''
         },
-        checkIfGameWasAlreadyBet(hasBeenAlreadyBet, game, bet){
+        checkIfGameWasAlreadyBet(game, bet){
+            this.$store.dispatch('getAllUserBetsForCurrentGameWeek');
             let allUserBetsForCurrentGameWeek = this.$store.getters.getAllUserBetsForCurrentGameWeek.data.bets;
-            //console.log(allUserBetsForCurrentGameWeek);
             allUserBetsForCurrentGameWeek.forEach(function(b){
                 if (b.gameId === game._id) {
-                    hasBeenAlreadyBet = true;
+                    bet.hasBeenAlreadyBet = true;
                     bet.homeTeamPoints = b.homeTeamPoints;
                     bet.awayTeamPoints = b.awayTeamPoints;
-                    //console.log('checked it');
+                    bet.betId = b._id;
                 }
             })
         }
@@ -143,6 +139,10 @@ b-form-row {
 
 div {
     width: 100%;
+}
+
+b-button {
+    margin: 5px;
 }
 
 </style>

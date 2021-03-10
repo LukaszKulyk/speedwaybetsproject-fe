@@ -30,13 +30,13 @@
         <b-nav-item-dropdown right>
           <!-- Using 'button-content' slot -->
           <template #button-content>
-            <em v-if="loggedIn">{{getUsername}}</em>
+            <em v-if="loggedIn()">{{getUsername()}}</em>
             <em v-else>User</em>
           </template>
-          <b-dropdown-item v-if="!loggedIn" to="/login">Login</b-dropdown-item>
-          <b-dropdown-item v-if="!loggedIn" to="/register">Register</b-dropdown-item>
-          <b-dropdown-item v-if="loggedIn" to="/bets">Make a bet</b-dropdown-item>
-          <b-dropdown-item v-if="loggedIn" to="/logout">Sign Out</b-dropdown-item>
+          <b-dropdown-item v-if="!loggedIn()" to="/login">Login</b-dropdown-item>
+          <b-dropdown-item v-if="!loggedIn()" to="/register">Register</b-dropdown-item>
+          <b-dropdown-item v-if="loggedIn()" to="/bets">Make a bet</b-dropdown-item>
+          <b-dropdown-item v-if="loggedIn()" to="/logout">Sign Out</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
@@ -45,8 +45,17 @@
 </template>
 
 <script>
+/* eslint-disable */
 export default {
   computed: {
+    /*loggedIn () {
+      return this.$store.getters.loggedIn
+    },
+    getUsername () {
+      return this.$store.getters.getUsername
+    }*/
+  },
+  methods: {
     loggedIn () {
       return this.$store.getters.loggedIn
     },
