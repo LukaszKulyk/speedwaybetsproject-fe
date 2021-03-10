@@ -1,7 +1,7 @@
 <template>
     <b-container>
         <div>
-            <h2>{{ translations.pol }}</h2>
+            <h1>{{ $t('homePage.title') }}</h1>
             <p><strong>{{translations.infoAboutProject.pol}}</strong></p>
             <p><strong>{{translations.comeAndPlayWithUs.pol}}</strong></p>
             <p><strong>{{translations.awardsInfo.pol}}</strong></p>

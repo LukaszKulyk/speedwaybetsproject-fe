@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import i18n from './plugins/i18n'
 
 import store from './store'
 
@@ -19,6 +20,7 @@ new Vue({
   el: '#app',
   store,
   router,
+  i18n,
   components: { App },
   template: '<App/>'
 })
