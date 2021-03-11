@@ -21,11 +21,19 @@
           <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
         </b-nav-form>--->
 
-        <b-nav-item-dropdown text="Lang" right>
-          <b-dropdown-item href="#">ENG</b-dropdown-item>
-          <b-dropdown-item href="#">POL</b-dropdown-item>
-          <b-dropdown-item href="#">LEM</b-dropdown-item>
-        </b-nav-item-dropdown>
+          <div class="locale-switcher">
+              <select v-model="$i18n.locale">
+                <option value="en">English</option>
+                <option value="pl">Polski</option>
+                <option value="lem">Lemko</option>
+              </select>
+          </div>
+
+        <!--<b-nav-item-dropdown text="Lang" v-model="$i18n.locale" right>
+          <b-dropdown-item value="en">ENG</b-dropdown-item>
+          <b-dropdown-item value="pl">POL</b-dropdown-item>
+          <b-dropdown-item value="lem">LEM</b-dropdown-item>
+        </b-nav-item-dropdown>-->
 
         <b-nav-item-dropdown right>
           <!-- Using 'button-content' slot -->
@@ -47,6 +55,15 @@
 <script>
 /* eslint-disable */
 export default {
+  data(){
+    return {
+      languages: {
+        english: 'en',
+        polish: 'pl',
+        lemko: 'lem'
+      }
+    }
+  },
   computed: {
     /*loggedIn () {
       return this.$store.getters.loggedIn
@@ -65,3 +82,16 @@ export default {
   }
 }
 </script>
+<style>
+select {
+  background-color: #343A40;
+  border: none;
+  color: #96999C;
+  font-style: italic;
+  margin-top: 8px;
+}
+
+.locale-switcher{
+  color: #96999C;
+}
+</style>

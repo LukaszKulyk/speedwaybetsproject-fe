@@ -2,6 +2,7 @@
     <b-container>
         <div>
             <h1>{{ $t('homePage.title') }}</h1>
+            <h1>{{ $t('test') }}</h1>
             <p><strong>{{translations.infoAboutProject.pol}}</strong></p>
             <p><strong>{{translations.comeAndPlayWithUs.pol}}</strong></p>
             <p><strong>{{translations.awardsInfo.pol}}</strong></p>

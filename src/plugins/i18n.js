@@ -21,6 +21,7 @@ const messages = {
         homePage: {
             title: 'SpeedwayBets'
         },
+        test: "Lemkilska wartist testowa."
     }
 }
 
