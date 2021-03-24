@@ -2,10 +2,9 @@
     <b-container>
         <div>
             <h1>{{ $t('homePage.title') }}</h1>
-            <h1>{{ $t('test') }}</h1>
-            <p><strong>{{translations.infoAboutProject.pol}}</strong></p>
-            <p><strong>{{translations.comeAndPlayWithUs.pol}}</strong></p>
-            <p><strong>{{translations.awardsInfo.pol}}</strong></p>
+            <p><strong>{{ $t('homePage.infoAboutProject') }}</strong></p>
+            <p><strong>{{ $t('homePage.comeandPlayWithUsInfo') }}</strong></p>
+            <p><strong>{{ $t('homePage.awards.awardsInfo') }}</strong></p>
             <div>
                 <b-table striped hover responsive :items="awardsTableValues" :fields="awardsTableColumns"></b-table>
             </div>
@@ -14,11 +13,11 @@
                 <b-list-group-item><strong>2. {{translations.awards.award2.pol}}</strong></b-list-group-item>
                 <b-list-group-item><strong>3. {{translations.awards.award3.pol}}</strong></b-list-group-item>
             </b-list-group>-->
-            <p><strong>{{translations.collectPoints.pol}}</strong></p>
+            <p><strong>{{ $t('homePage.collectPointsInfo') }}</strong></p>
             <div>
                 <b-table striped hover responsive :items="pointsTableValues" :fields="pointsTableColumns"></b-table>
             </div>
-            <p><strong>{{translations.drawInformation.pol}}</strong></p>
+            <p><strong>{{ $t('homePage.drawInformation') }}</strong></p>
         </div>
     </b-container>
 </template>
@@ -64,7 +63,7 @@ export default {
                 },
                 drawInformation: {
                     eng: 'WARNING! If you bet draw you can only have 10 points (if result is draw) or 0 points in any other cases!. That means if you bet 45:45 in one of games and result is 45:45 you have 10 points. Bu when you bet 45:45 and result is 46:44 you do NOT have points!. Please be careful with draw bets!.',
-                    pol: 'UWAGA! Jeśli obstawiasz remis możesz zdobyć tylko 10 punktów (w przypadku, gdy taki wynik faktycznie padnie) lub 0 punktów, w każdym innym przypadku! Przykładowo jeśli obstawiasz wynik 45:45, a wynik końcowy to 45:45, dostajesz 10 punktów. Jeśli obstawiasz wynik 45:45, a wynik końcowy to 46:44, to nei dostajesz żadnych punjktów! Prosimy uważać z obstawianiem remisów!'
+                    pol: 'UWAGA! Jeśli obstawiasz remis możesz zdobyć tylko 10 punktów (w przypadku, gdy taki wynik faktycznie padnie) lub 0 punktów, w każdym innym przypadku! Przykładowo jeśli obstawiasz wynik 45:45, a wynik końcowy to 45:45, dostajesz 10 punktów. Jeśli obstawiasz wynik 45:45, a wynik końcowy to 46:44, to nie dostajesz żadnych punjktów! Prosimy uważać z obstawianiem remisów!'
                 },
                 pointsTableTranslations: {
                     eng: {

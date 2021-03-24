@@ -1,14 +1,15 @@
 <template>
     <div>
         <b-container>
+            <h1>{{ $t('standingsPage.title') }}</h1>
             <div v-if="checkIfPlayerStandingsAlreadyExists() > 0">
-                <h3>{{ translations.lem }}</h3>
+                <h3>{{ $t('standingsPage.currentStandingsTitle') }}</h3>
                 <div>
                     <b-table striped hover responsive :items="lastPlayerStandings()" :fields="fields"></b-table>
                 </div>
             </div>
             <div v-else>
-                <h2>There is no current Standings yet. Season will start soon!</h2>
+                <h2>{{ $t('standingsPage.ifNotStandings') }}</h2>
             </div>
         </b-container>
     </div>
@@ -24,7 +25,7 @@ export default {
                 pol: 'Aktualna Tabela',
                 lem: 'Aktualny wyniky'
             },
-            fields: ['pos', 'username', 'points', 'arrow']
+            fields: [{key: 'pos'}, {key: 'username'}, {key: 'points'}, {key: 'arrow', tdClass: 'setPosTdClass'}]
         }
     },
     created(){
@@ -35,8 +36,40 @@ export default {
 			return this.$store.getters.getLastPlayerStandings.data.playerResultsTable[0].currentRank;
 		},
         checkIfPlayerStandingsAlreadyExists(){
+            //console.log(this.$store.getters.getLastPlayerStandings);
+            //let result = this.$store.getters.getLastPlayerStandings
+            //console.log(result);
             return this.$store.getters.getLastPlayerStandings.data.count;
+        },
+        setPosTdClass(value){
+            let firstChar = value.charAt(0);
+            if(firstChar === '+'){
+                return 'text-green';
+            }
+            else if(firstChar === '0'){
+                return 'text-gray';
+            }
+            else if(firstChar === '-'){
+                return 'text-red';
+            }
         }
     }
 }
 </script>
+<style>
+.text-red {
+  color: red;
+  font-weight: bold;
+
+}
+
+.text-green {
+  color: green;
+  font-weight: bold;
+}
+
+.text-gray {
+    color: gray;
+    font-weight: bold;
+}
+</style>

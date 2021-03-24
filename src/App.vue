@@ -3,15 +3,18 @@
     <!--<img src="./assets/logo.png">-->
     <NavBarComponent></NavBarComponent>
     <router-view/>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import NavBarComponent from '@/components/NavBarComponent'
+import Footer from '@/components/Footer'
 
 export default {
   components: {
-    NavBarComponent
+    NavBarComponent,
+    Footer
   },
   name: 'App'
 }

@@ -2,20 +2,21 @@
     <div>
         <b-container>
             <!--<h2>GAME WEEK {{nextGameWeekNumericValue() || null}}</h2>-->
+            <h1>{{ $t('betsPage.title') }}</h1>
             <div v-if="loggedIn()">
                 <div v-if="checkIfNextGameWeekIsAvailable() > 0">
                     <div v-for="(game, index) in nextGameWeekGames()" :key="index">
-                        <GameBetComponent :game="game"></GameBetComponent>
+                        <GameBetComponent :data-test-id="'game-bet-'+index" :game="game"></GameBetComponent>
                     </div>
                 </div>
                 <div v-else>
-                    <h2>There is no Game Week scheduled!</h2>
+                    <h2>{{ $t('betsPage.noGameWeekScheduledYet') }}</h2>
                 </div>
             </div>
             <div v-else>
-                <h2>You need to be logged in to make a bet!</h2>
-                <router-link to="/login">Login</router-link>
-                <router-link to="/register">Register</router-link>
+                <h2>{{ $t('betsPage.userNotLoggedIn') }}</h2>
+                <router-link to="/login">{{ $t('betsPage.loginButton') }}</router-link>
+                <router-link to="/register">{{ $t('betsPage.registerButton') }}</router-link>
             </div>
         </b-container>
     </div>
@@ -36,11 +37,14 @@ export default {
                 lem: 'Teper'
             },
             submitted: false,
+            allUserBetsForCurrentGameWeek: []
         }
     },
     created(){
         this.$store.dispatch('getNextGameWeekGames');
         this.$store.dispatch('getAllUserBetsForCurrentGameWeek');
+        //this.setAllUserBets();
+        //this.$store.dispatch('getInfoAboutNextGameWeekWhichShouldBePlayed');
     },
     methods: {
         loggedIn(){
@@ -52,6 +56,15 @@ export default {
         checkIfNextGameWeekIsAvailable(){
             return this.$store.getters.getNextGameWeekGames.data.count;
         },
+        setAllUserBets(){
+            this.$store.dispatch('getAllUserBetsForCurrentGameWeek')
+                .then(response => {
+                    console.log(response);
+                })
+        }
+        /*getAllNextGameWeekBetsForCurrentUser(){
+
+        }*/
     }
 }
 </script>

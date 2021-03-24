@@ -1,17 +1,17 @@
 <template>
     <div>
   <b-navbar toggleable="lg" type="dark" variant="dark">
-    <b-navbar-brand href="#">SpeedwayBets</b-navbar-brand>
+    <b-navbar-brand href="#">SpeedwayWorld</b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item to="/">Home</b-nav-item>
-        <b-nav-item to="/standings">Standings</b-nav-item>
-        <b-nav-item to="/results">Results</b-nav-item>
-        <b-nav-item to="/schedule">Schedule</b-nav-item>
-        <b-nav-item to="/bets">Bets</b-nav-item>
+        <b-nav-item to="/">{{ $t('navBarComponent.home') }}</b-nav-item>
+        <b-nav-item to="/standings">{{ $t('navBarComponent.standings') }}</b-nav-item>
+        <b-nav-item to="/results">{{ $t('navBarComponent.results') }}</b-nav-item>
+        <b-nav-item to="/schedule">{{ $t('navBarComponent.schedule') }}</b-nav-item>
+        <b-nav-item to="/bets">{{ $t('navBarComponent.bets') }}</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
@@ -25,7 +25,7 @@
               <select v-model="$i18n.locale">
                 <option value="en">English</option>
                 <option value="pl">Polski</option>
-                <option value="lem">Lemko</option>
+                <option value="lem">Лемко</option>
               </select>
           </div>
 
@@ -41,10 +41,10 @@
             <em v-if="loggedIn()">{{getUsername()}}</em>
             <em v-else>User</em>
           </template>
-          <b-dropdown-item v-if="!loggedIn()" to="/login">Login</b-dropdown-item>
-          <b-dropdown-item v-if="!loggedIn()" to="/register">Register</b-dropdown-item>
-          <b-dropdown-item v-if="loggedIn()" to="/bets">Make a bet</b-dropdown-item>
-          <b-dropdown-item v-if="loggedIn()" to="/logout">Sign Out</b-dropdown-item>
+          <b-dropdown-item v-if="!loggedIn()" to="/login">{{ $t('navBarComponent.login') }}</b-dropdown-item>
+          <b-dropdown-item v-if="!loggedIn()" to="/register">{{ $t('navBarComponent.register') }}</b-dropdown-item>
+          <b-dropdown-item v-if="loggedIn()" to="/bets">{{ $t('navBarComponent.makeABet') }}</b-dropdown-item>
+          <b-dropdown-item v-if="loggedIn()" to="/logout">{{ $t('navBarComponent.logout') }}</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>

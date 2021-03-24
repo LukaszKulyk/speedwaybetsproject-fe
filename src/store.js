@@ -20,14 +20,14 @@ export default new Vuex.Store({
 
         //values
         //lastGameWeekWhichHasBeenPlayed: 1,
-		currentGameWeek: 2,
+		currentGameWeek: 1,
 
         //schedule
         fullSchedule: [],
         lastGameWeekPlayed: [],
         //allGameWeeksScheduled: [],
         lastGameWeekResults: [],
-		nextGameWeekToBeBet: 2,
+		nextGameWeekToBeBet: 3,
 		nextGameWeekGames: [],
 		allPlayedGamesResults: [],
 
@@ -40,7 +40,7 @@ export default new Vuex.Store({
 
 		//bets
 		specificGameBet: {},
-		allUserBetsForCurrentGameWeek: {},
+		allUserBetsForCurrentGameWeek: [],
 		allUserBets: {},
 
     },
@@ -72,6 +72,9 @@ export default new Vuex.Store({
         getLastGameWeekResults(state) {
             return state.lastGameWeekResults;
         },
+		getInfoAboutNextGameWeekWhichShouldBePlayed(state) {
+			return state.nextGameWeekToBeBet;
+		},
 		getNextGameWeekGames(state) {
 			return state.nextGameWeekGames;
 		},
@@ -111,6 +114,9 @@ export default new Vuex.Store({
 		},
 		destroyToken(state) {
 			state.token = null;
+			state.username = null;
+			state.userId = null;
+			state.isAdmin = null;
 		},
 		setUsername(state, username) {
 			state.username = username;
@@ -132,6 +138,9 @@ export default new Vuex.Store({
         setLastGameWeekResults(state, lastGameWeekResults) {
 			state.lastGameWeekResults = lastGameWeekResults;
         },
+		setInfoAboutNextGameWeekWhichShouldBePlayed(state, nextGameWeekInfo) {
+			state.nextGameWeekToBeBet = nextGameWeekInfo;
+		},
 		setNextGameWeekGames(state, nextGameWeekGames) {
 			state.nextGameWeekGames = nextGameWeekGames;
 		},
@@ -150,6 +159,8 @@ export default new Vuex.Store({
         //player standings
         setLastPlayerStandings(state, playerStandings) {
             state.lastPlayerStandings = playerStandings;
+			//console.log(playerStandings.data.playerResultsTable[0].gameWeek);
+			state.nextGameWeekToBeBet = playerStandings.data.playerResultsTable[0].gameWeek + 1;
         },
 
 		//Bets
@@ -193,8 +204,11 @@ export default new Vuex.Store({
 
 					localStorage.setItem('token', token);
 					context.commit('retrieveToken', token);
+					localStorage.setItem('username', username);
 					context.commit('setUsername', username);
+					localStorage.setItem('userId', userId);
 					context.commit('setUserId', userId);
+					localStorage.setItem('isAdmin', isAdmin);
                     context.commit('setIsAdmin', isAdmin);
 				})
 		},
@@ -207,12 +221,12 @@ export default new Vuex.Store({
 					axios.post('/logout')
 						.then(response => {
 							localStorage.removeItem('token');
-							//localStorage.removeItem('username');
-							//localStorage.removeItem('userId');
-							//localStorage.removeItem('isAdmin');
-							this.state.username = null;
-							this.state.userId = null;
-							this.state.isAdmin = null;
+							localStorage.removeItem('username');
+							localStorage.removeItem('userId');
+							localStorage.removeItem('isAdmin');
+							//this.state.allUserBetsForCurrentGameWeek = null;
+							//this.state.userId = null;
+							//this.state.isAdmin = null;
 							context.commit('destroyToken');
 							resolve(response);
 						})
@@ -250,6 +264,14 @@ export default new Vuex.Store({
 					context.commit('setLastGameWeekResults', lastPlayed);
 				})
         },*/
+		getInfoAboutNextGameWeekWhichShouldBePlayed(context) {
+			axios.get(this.state.domain + 'schedule/scheduled/next')
+				.then(nextGameWeekInfo => {
+					//return response;
+					//console.log(standings);
+					context.commit('setInfoAboutNextGameWeekWhichShouldBePlayed', nextGameWeekInfo.data.schedule[0].gameWeek);
+				})
+        },
 		getNextGameWeekGames(context) {
 			axios.get(this.state.domain + 'schedule/scheduled/next/game_week/' + this.state.nextGameWeekToBeBet)
 				.then(nextGameWeekGames => {
@@ -296,7 +318,7 @@ export default new Vuex.Store({
 			axios.post(this.state.domain + 'bet', {
 				gameId: bet.gameId,
 				userId: this.state.userId,
-				gameWeek: this.state.currentGameWeek,
+				gameWeek: this.state.nextGameWeekToBeBet,
 				homeTeamPoints: bet.homeTeamPoints,
 				awayTeamPoints: bet.awayTeamPoints
 			},
@@ -307,7 +329,8 @@ export default new Vuex.Store({
 			}
 			)
 				.then(response => {
-					console.log(response)
+					console.log(response);
+					//return response;
 				})
 				.catch(error => {
 					return error;
@@ -321,11 +344,12 @@ export default new Vuex.Store({
 				})
 		},
 		getAllUserBetsForCurrentGameWeek(context) {
-			axios.get(this.state.domain + 'bet/user/' + this.state.userId + '/game-week/' + this.state.currentGameWeek)
+			axios.get(this.state.domain + 'bet/user/' + this.state.userId + '/game-week/' + this.state.nextGameWeekToBeBet)
 				.then(bets => {
 					//return response;
 					//console.log(standings);
 					context.commit('setAllUserBetsForCurrentGameWeek', bets);
+					//return bets.data.bets;
 				})
         },
 		updateExistingBet(context, bet) {

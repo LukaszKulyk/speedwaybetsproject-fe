@@ -1,21 +1,27 @@
 <template>
     <div>
         <b-container>
-            <h1>Schedule</h1>
+            <h1>{{ $t('schedulePage.title') }}</h1>
             <div v-if="this.$store.getters.loggedIn">
-                <div v-if="getAllNeededValuesFromUserBets().length > 0">
+                <div v-if="checkIfUserBetsAlreadyExists">
                     <b-table striped hover responsive :items="getAllNeededValuesFromUserBets()" :fields="scheduleTableColumnsForLoggedUser"></b-table>
                 </div>
                 <div v-else>
-                    <h2>Schedule for this season is not prepared yet. Please come again later. We promise, we are working on that!</h2>
+                    <!--<h2>{{ $t('schedulePage.scheduleNotReadyYet') }}</h2>-->
+                    <div v-if="checkIfScheduleDataAlreadyExists">
+                        <b-table striped hover responsive :items="getAllScheduleDataNeededForNOTLoggedInViewer()" :fields="scheduleTableColumnsDefault"></b-table>
+                    </div>
+                    <div v-else>
+                        <h2>{{ $t('schedulePage.scheduleNotReadyYet') }}</h2>
+                    </div>
                 </div>
             </div>
             <div v-else>
-                <div v-if="getAllScheduleDataNeededForNOTLoggedInViewer().length > 0">
+                <div v-if="checkIfScheduleDataAlreadyExists">
                     <b-table striped hover responsive :items="getAllScheduleDataNeededForNOTLoggedInViewer()" :fields="scheduleTableColumnsDefault"></b-table>
                 </div>
                 <div v-else>
-                    <h2>Schedule for this season is not prepared yet. Please came again later. We promise, we are working on that!</h2>
+                    <h2>{{ $t('schedulePage.scheduleNotReadyYet') }}</h2>
                 </div>
             </div>
         </b-container>
@@ -39,8 +45,9 @@ export default {
     created(){
         this.$store.dispatch('getFullSchedule'); 
         this.getAllUserBetsIfIsLoggedIn();
-        this.getAllScheduleDataNeededForNOTLoggedInViewer();
-        this.getAllNeededValuesFromUserBets();
+        this.checkIfScheduleDataAlreadyExists();
+        //this.getAllScheduleDataNeededForNOTLoggedInViewer(); // test comment, if doe snot work please uncomment it
+        //this.getAllNeededValuesFromUserBets(); // test comment, if doe snot work please uncomment it
     },
     methods: {
         getAllUserBetsIfIsLoggedIn(){
@@ -59,37 +66,53 @@ export default {
             let fullSchedule = this.$store.getters.getFullSchedule.data.schedule;
             let arrayOfValuesForLoggedInUser = [];
 
+            //
+            let testArray = [];
+
             fullSchedule.forEach(function(game){
 
-                    allBets.forEach(function(bet){
-                        if(bet.gameId === game._id){
-                            if(game.isGamePlayed === true){
-                                const valuesToTable = {
-                                    week: game.gameWeek,
-                                    date: game.scheduledGameDate.replace(/\T.*/,''),
-                                    status: game.gameStatus,
-                                    game: game.homeTeam + ' - ' + game.awayTeam,
-                                    result: game.gameResult.homeTeamPoints + ' : ' + game.gameResult.awayTeamPoints,
-                                    bet: bet.homeTeamPoints + ':' + bet.awayTeamPoints,
-                                    points: bet.collectedPoints
-                                }
-                                arrayOfValuesForLoggedInUser.push(valuesToTable);
-                            }
-                            else{
-                                const valuesToTable = {
-                                    week: game.gameWeek,
-                                    date: game.scheduledGameDate.replace(/\T.*/,''),
-                                    status: game.gameStatus,
-                                    game: game.homeTeam + ' - ' + game.awayTeam,
-                                    result: '-',
-                                    bet: '-',
-                                    points: '-'
-                                }
-                                arrayOfValuesForLoggedInUser.push(valuesToTable);
-                            }
+                if(game.isGamePlayed === true){
+                    let isBetOfThisGameTaken = allBets.find(bet => bet.gameId === game._id);
+                    if(isBetOfThisGameTaken !== undefined) {
+                        const valuesToTable = {
+                            week: game.gameWeek,
+                            date: game.scheduledGameDate.replace(/\T.*/,''),
+                            status: game.gameStatus,
+                            game: game.homeTeam + ' - ' + game.awayTeam,
+                            result: game.gameResult.homeTeamPoints + ' : ' + game.gameResult.awayTeamPoints,
+                            bet: isBetOfThisGameTaken.homeTeamPoints + ':' + isBetOfThisGameTaken.awayTeamPoints,
+                            points: isBetOfThisGameTaken.collectedPoints
                         }
-                    })
+                        arrayOfValuesForLoggedInUser.push(valuesToTable);
+                    }
+                    else{
+                        const valuesToTable = {
+                            week: game.gameWeek,
+                            date: game.scheduledGameDate.replace(/\T.*/,''),
+                            status: game.gameStatus,
+                            game: game.homeTeam + ' - ' + game.awayTeam,
+                            result: game.gameResult.homeTeamPoints + ' : ' + game.gameResult.awayTeamPoints,
+                            bet: '-',
+                            points: 0
+                        }
+                        arrayOfValuesForLoggedInUser.push(valuesToTable);
+                    }
+                }
+                else{
+                    const valuesToTable = {
+                        week: game.gameWeek,
+                        date: game.scheduledGameDate.replace(/\T.*/,''),
+                        status: game.gameStatus,
+                        game: game.homeTeam + ' - ' + game.awayTeam,
+                        result: '-',
+                        bet: '-',
+                        points: '-'
+                    }
+                    arrayOfValuesForLoggedInUser.push(valuesToTable);
+                }
             });
+
+            //return arrayOfValuesForLoggedInUser;
             return arrayOfValuesForLoggedInUser;
         },
         getAllScheduleDataNeededForNOTLoggedInViewer(){
@@ -119,6 +142,14 @@ export default {
                 }
             });
             return arrayOfValuesForNOTLoggedInViewer;
+        },
+        checkIfUserBetsAlreadyExists(){
+            return this.$store.getters.getAllUserBets;
+        },
+        checkIfScheduleDataAlreadyExists(){
+            //this.$store.dispatch('getFullSchedule');
+            //console.log(this.$store.getters.getFullSchedule);
+            return this.$store.getters.getFullSchedule;
         }
     }
     
