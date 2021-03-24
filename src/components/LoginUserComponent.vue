@@ -30,7 +30,9 @@ export default {
         email: this.form.email,
         password: this.form.password
       })
-        .then(this.$router.push('/'))
+        .then(() => {
+          this.$router.push('/')
+        })
     }
   }
 }

@@ -210,6 +210,8 @@ export default new Vuex.Store({
 					context.commit('setUserId', userId);
 					localStorage.setItem('isAdmin', isAdmin);
                     context.commit('setIsAdmin', isAdmin);
+
+					context.dispatch('getAllUserBetsForCurrentGameWeek');
 				})
 		},
 		destroyToken(context) {
@@ -331,6 +333,7 @@ export default new Vuex.Store({
 				.then(response => {
 					console.log(response);
 					//return response;
+					context.dispatch('getAllUserBetsForCurrentGameWeek');
 				})
 				.catch(error => {
 					return error;
@@ -376,6 +379,7 @@ export default new Vuex.Store({
 			)
 				.then(response => {
 					console.log(response)
+					context.dispatch('getAllUserBetsForCurrentGameWeek');
 				})
 				.catch(error => {
 					return error;
