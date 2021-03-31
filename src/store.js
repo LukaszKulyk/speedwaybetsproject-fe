@@ -10,7 +10,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
 		//domain
-		domain: 'http://localhost:3000/',
+		domain: 'http://localhost:3004/',
 
         //Users
         token: localStorage.getItem('token') || null,
@@ -27,7 +27,7 @@ export default new Vuex.Store({
         lastGameWeekPlayed: [],
         //allGameWeeksScheduled: [],
         lastGameWeekResults: [],
-		nextGameWeekToBeBet: 3,
+		nextGameWeekToBeBet: 1,
 		nextGameWeekGames: [],
 		allPlayedGamesResults: [],
 
