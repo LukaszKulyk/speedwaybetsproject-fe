@@ -8,12 +8,14 @@
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "open": "node server.js"
   },
   "dependencies": {
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",
     "bootstrap-vue": "^2.20.1",
+    "express": "^4.17.1",
     "vue": "^2.6.12",
     "vue-i18n": "^8.24.0",
     "vue-router": "^3.0.1",
