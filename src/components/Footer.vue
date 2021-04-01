@@ -19,6 +19,7 @@
                 <p>Do you have any sugesstions how we can improve?</p>
                 <p>Do you want to cooperate with us?</p>
                 <p>Contact us by email: <a href="mailto:quickitproduction@gmail.com">contact.quickit@gmail.com</a></p>
+                <p>Phone: +48 726 401 541</p>
             </div>
         </div>
     </div>

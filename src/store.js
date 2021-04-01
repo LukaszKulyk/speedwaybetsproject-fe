@@ -10,7 +10,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
 		//domain
-		domain: 'http://localhost:3004/',
+		domain: 'https://speedway-wrold-api.herokuapp.com/',
 
         //Users
         token: localStorage.getItem('token') || null,

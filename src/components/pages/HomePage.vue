@@ -76,15 +76,15 @@ export default {
             awardsTableValues: [
                 {
                     Position: 1,
-                    Award: 'Speedway Biznes - gra planszowa'
+                    Award: 'Two Ticket for selected by winner Speedway Game'
                 },
                 {
                     Position: 2,
-                    Award: 'Bilet na wybrany przez siebie mecz żużlowy'
+                    Award: 'Ticket for selected by winner Speedway Game'
                 },
                 {
                     Position: 3,
-                    Award: 'Koszyk słodyczy'
+                    Award: 'SpeedwayBusines game'
                 }
             ],
             pointsTableColumns: ['Bet', 'Points'],
