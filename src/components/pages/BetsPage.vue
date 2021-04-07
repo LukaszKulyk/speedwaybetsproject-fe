@@ -1,7 +1,6 @@
 <template>
     <div>
         <b-container>
-            <!--<h2>GAME WEEK {{nextGameWeekNumericValue() || null}}</h2>-->
             <h1>{{ $t('betsPage.title') }}</h1>
             <div v-if="loggedIn()">
                 <div v-if="checkIfNextGameWeekIsAvailable() > 0">
@@ -43,8 +42,6 @@ export default {
     created(){
         this.$store.dispatch('getNextGameWeekGames');
         this.$store.dispatch('getAllUserBetsForCurrentGameWeek');
-        //this.setAllUserBets();
-        //this.$store.dispatch('getInfoAboutNextGameWeekWhichShouldBePlayed');
     },
     methods: {
         loggedIn(){
@@ -62,9 +59,6 @@ export default {
                     console.log(response);
                 })
         }
-        /*getAllNextGameWeekBetsForCurrentUser(){
-
-        }*/
     }
 }
 </script>

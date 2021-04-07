@@ -35,12 +35,6 @@ export default {
         lastPlayerStandings(){
 			return this.$store.getters.getLastPlayerStandings.data.playerResultsTable[0].currentRank;
 		},
-        /*checkIfPlayerStandingsAlreadyExists(){
-            //console.log(this.$store.getters.getLastPlayerStandings);
-            //let result = this.$store.getters.getLastPlayerStandings
-            //console.log(result);
-            return this.$store.getters.getLastPlayerStandings.data.count;
-        },*/
         setPosTdClass(value){
             let firstChar = value.charAt(0);
             if(firstChar === '+'){

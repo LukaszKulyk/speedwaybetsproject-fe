@@ -1,14 +1,6 @@
 <template>
     <div class="footer row justify-content-md-center">
-        <!--<h3>QuickIT Production<br></h3>-->
-        <!--<h4>Contact US</h4>-->
-        <!--<p>Have you found a bug?</p>-->
-        <!--<p>Do you have any sugesstions how we can improve?</p>-->
-        <!--<p>Do you want to cooperate with us?</p>-->
-        <!--<p>Contact us using email: <a href="mailto:contact.quickit@gmail.com">contact.quickit@gmail.com</a></p>-->
         <div class="row justify-content-end">
-            <!--<div class="col-3"></div>-->
-            <!--<div class="col-3"></div>-->
             <div class="col-sm-3">
                 <h4><strong>QuickIT Production</strong></h4>
                 <p>We are a small startup with huge ambitions. We deliver small projects based on our ideas but we are open for cooperation. Our main goal is to make ourselves better everyday.</p>

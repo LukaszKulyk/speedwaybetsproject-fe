@@ -7,7 +7,6 @@
                     <b-table striped hover responsive :items="getAllNeededValuesFromUserBets()" :fields="scheduleTableColumnsForLoggedUser"></b-table>
                 </div>
                 <div v-else>
-                    <!--<h2>{{ $t('schedulePage.scheduleNotReadyYet') }}</h2>-->
                     <div v-if="checkIfScheduleDataAlreadyExists">
                         <b-table striped hover responsive :items="getAllScheduleDataNeededForNOTLoggedInViewer()" :fields="scheduleTableColumnsDefault"></b-table>
                     </div>
@@ -109,8 +108,6 @@ export default {
                     arrayOfValuesForLoggedInUser.push(valuesToTable);
                 }
             });
-
-            //return arrayOfValuesForLoggedInUser;
             return arrayOfValuesForLoggedInUser;
         },
         getAllScheduleDataNeededForNOTLoggedInViewer(){

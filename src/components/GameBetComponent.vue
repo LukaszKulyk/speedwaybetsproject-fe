@@ -3,7 +3,6 @@
         <div>
             <label><strong>{{ game.homeTeam }} - {{ game.awayTeam }}</strong></label>
             <b-form-input size="sm" type="number" min="15" max="75" v-model="bet.homeTeamPoints" required :disabled="game.gameStatus === 'inprogress'"></b-form-input>
-            <!--<label><strong>:</strong></label>-->
             <b-form-input size="sm" type="number" min="15" max="75" v-model="bet.awayTeamPoints" required :disabled="game.gameStatus === 'inprogress'"></b-form-input>
             <b-button type="submit" :disabled="betHasBeenJustSend === true">{{ $t('betsPage.sendBetButton') }}</b-button>
         </div>

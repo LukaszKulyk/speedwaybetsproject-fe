@@ -33,33 +33,6 @@ export default {
                 password: ''
             },
             submitted: false,
-            //registerStatus: '',
-            /*translations: {
-                eng: 'Game Week',
-                pol: 'Kolejka',
-                lem: 'Teper'
-            },
-            bet: {
-                nickName: '',
-                games: {
-                    first: {
-                        homeTeamPoints: '',
-                        awayTeamPoints: ''
-                    },
-                    second: {
-                        homeTeamPoints: '',
-                        awayTeamPoints: ''
-                    },
-                    third: {
-                        homeTeamPoints: '',
-                        awayTeamPoints: ''
-                    },
-                    fourth: {
-                        homeTeamPoints: '',
-                        awayTeamPoints: ''
-                    },
-                }
-            }*/
         }
     },
     computed: {
@@ -82,26 +55,6 @@ export default {
 			this.user.password = ''
 		}
 	}
-    /*methods: {
-        methods: {
-      onSubmit(event) {
-        event.preventDefault()
-        alert(JSON.stringify(this.form))
-      },
-      onReset(event) {
-        event.preventDefault()
-        // Reset our form values
-        this.form.email = ''
-        this.form.name = ''
-        this.form.password = ''
-        // Trick to reset/clear native browser form validation state
-        this.show = true
-        this.$nextTick(() => {
-          this.show = true
-        })
-      }
-    }
-    }*/
 }
 </script>
 <style>

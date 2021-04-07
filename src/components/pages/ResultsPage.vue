@@ -48,12 +48,6 @@ export default {
         allPlayedGamesResults() {
             return this.$store.getters.getAllPlayedGamesResults.data.schedule;
         },
-        /*checkIfStandingsAlreadyExists(){
-            return this.$store.getters.getLastStandingsTable;
-        },
-        checkIfAllPlayedGameResultsAlreadyExists(){
-            return this.$store.getters.getAllPlayedGamesResults;
-        },*/
         setPosTdClass(num){
             if(num > 0){
                 return 'text-green';
