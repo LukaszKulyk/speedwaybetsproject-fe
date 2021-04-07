@@ -1,9 +1,12 @@
 <template>
   <div>
-    <div v-if="submitted">
-        <h3>New User has been created succesfully!</h3>
+    <div v-if="this.$store.getters.getCurrentAuthStatus === 'success'">
+        <h3>New User has been created succesfully! You can now login and have fun!</h3>
     </div>
-    <b-form v-if="submitted === false" action="#" @submit.prevent="register">
+    <div v-if="this.$store.getters.getCurrentAuthStatus === 'error'">
+        <h3>Something went wrong. Maybe email or username is already taken???</h3>
+    </div>
+    <b-form v-if="this.$store.getters.loggedIn === false" action="#" @submit.prevent="register">
         <b-form-group id="email-input-group" label="Email Adress" label-for="email-input" description="Please write an email.">
             <b-form-input id="email-input" v-model="user.email" type="email" required placeholder="email"></b-form-input>
         </b-form-group>
@@ -30,7 +33,8 @@ export default {
                 password: ''
             },
             submitted: false,
-            translations: {
+            //registerStatus: '',
+            /*translations: {
                 eng: 'Game Week',
                 pol: 'Kolejka',
                 lem: 'Teper'
@@ -55,7 +59,7 @@ export default {
                         awayTeamPoints: ''
                     },
                 }
-            }
+            }*/
         }
     },
     computed: {

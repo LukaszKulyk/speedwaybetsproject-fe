@@ -2,7 +2,7 @@
     <div>
         <b-container>
             <h1>{{ $t('resultsPage.title') }}</h1>
-            <div v-if="checkIfStandingsAlreadyExists">
+            <div v-if="this.$store.getters.getLastStandingsTable">
                 <h2>{{ $t('resultsPage.tableTitle') }}</h2>
                 <div>
                     <b-table striped hover responsive :items="lastStandingsTable()" :fields="standingsTableColumns"></b-table>
@@ -11,7 +11,7 @@
             <div v-else>
                 <h2>{{ $t('resultsPage.ifNoResultsYet') }}</h2>
             </div>
-            <div v-if="checkIfAllPlayedGameResultsAlreadyExists">
+            <div v-if="this.$store.getters.getAllPlayedGamesResults">
                 <h3><strong>{{ $t('resultsPage.playedGames') }}</strong></h3>
                 <div v-for="(game, index) in allPlayedGamesResults()" :key="index">
                     <div>
@@ -48,12 +48,12 @@ export default {
         allPlayedGamesResults() {
             return this.$store.getters.getAllPlayedGamesResults.data.schedule;
         },
-        checkIfStandingsAlreadyExists(){
+        /*checkIfStandingsAlreadyExists(){
             return this.$store.getters.getLastStandingsTable;
         },
         checkIfAllPlayedGameResultsAlreadyExists(){
             return this.$store.getters.getAllPlayedGamesResults;
-        },
+        },*/
         setPosTdClass(num){
             if(num > 0){
                 return 'text-green';

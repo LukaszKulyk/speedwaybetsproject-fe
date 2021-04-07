@@ -11,12 +11,16 @@ export default new Vuex.Store({
     state: {
 		//domain
 		domain: 'https://speedway-wrold-api.herokuapp.com/',
+		//domain: 'http://localhost:3000/',
 
         //Users
         token: localStorage.getItem('token') || null,
 		username: localStorage.getItem('username') || null,
 		userId: localStorage.getItem('userId') || null,
 		isAdmin: localStorage.getItem('isAdmin') || null,
+
+		//registerStatus
+		registerStatus: null,
 
         //values
         //lastGameWeekWhichHasBeenPlayed: 1,
@@ -42,6 +46,9 @@ export default new Vuex.Store({
 		specificGameBet: {},
 		allUserBetsForCurrentGameWeek: [],
 		allUserBets: {},
+
+		//new authoriaztion approach
+		status: ''
 
     },
     getters: {
@@ -106,6 +113,10 @@ export default new Vuex.Store({
 			return state.allUserBets;
 		},
 
+		getCurrentAuthStatus(state){
+			return state.status;
+		}
+
     },
     mutations: {
         //Users
@@ -126,6 +137,11 @@ export default new Vuex.Store({
 		},
         setIsAdmin(state, isAdmin) {
 			state.isAdmin = isAdmin;
+		},
+
+		//registerStatus
+		setRegisterStatus(state, registerStatus) {
+			state.registerStatus = registerStatus;
 		},
 
         //schedule
@@ -172,46 +188,82 @@ export default new Vuex.Store({
 		},
 		setAllUserBets(state, bets){
 			state.allUserBets = bets;
+		},
+
+		//new authorization handling
+		auth_request(state) {
+			state.status = 'loading'
+		},
+		auth_error(state) {
+			state.status = 'error'
+		},
+		registration_success(state){
+			state.status = 'success'
 		}
 
     },
     actions: {
         //Users
         createNewUser(context, user) {
-			axios.post(this.state.domain + 'user/signup', {
-				email: user.email,
-				userName: user.userName,
-				password: user.password,
+			return new Promise((resolve, reject) => {
+				context.commit('auth_request')
+				axios.post(this.state.domain + 'user/signup', {
+					email: user.email,
+					userName: user.userName,
+					password: user.password,
+				})
+					.then(response => {
+						context.commit('registration_success')
+						resolve(response)
+					})
+					.catch(error => {
+						context.commit('auth_error', error)
+						reject(error);
+					})
 			})
-				.then(response => {
-					console.log(response)
-				})
-				.catch(error => {
-					return error;
-				})
 		},
 		retrieveToken(context, credentials) {
-			axios.post(this.state.domain + 'user/login', {
-				email: credentials.email,
-                userName: credentials.userName,
-				password: credentials.password
-			})
-				.then(response => {
-					const token = response.data.token;
-					const username = response.data.username;
-					const userId = response.data._id;
-                    const isAdmin = response.data.isAdmin;
+			return new Promise((resolve, reject) => {
+				context.commit('auth_request')
+				axios.post(this.state.domain + 'user/login', {
+					email: credentials.email,
+					userName: credentials.userName,
+					password: credentials.password
+				})
+					.then(response => {
+						const token = response.data.token;
+						const username = response.data.username;
+						const userId = response.data._id;
+						const isAdmin = response.data.isAdmin;
 
-					localStorage.setItem('token', token);
-					context.commit('retrieveToken', token);
-					localStorage.setItem('username', username);
-					context.commit('setUsername', username);
-					localStorage.setItem('userId', userId);
-					context.commit('setUserId', userId);
-					localStorage.setItem('isAdmin', isAdmin);
-                    context.commit('setIsAdmin', isAdmin);
+						console.log(token)
+						console.log(username)
+						console.log(userId)
+						console.log(isAdmin)
 
-					context.dispatch('getAllUserBetsForCurrentGameWeek');
+						localStorage.setItem('token', token);
+						context.commit('retrieveToken', token);
+						localStorage.setItem('username', username);
+						context.commit('setUsername', username);
+						localStorage.setItem('userId', userId);
+						context.commit('setUserId', userId);
+						localStorage.setItem('isAdmin', isAdmin);
+						context.commit('setIsAdmin', isAdmin);
+
+						axios.defaults.headers.common['Authorization'] = token
+
+						context.commit('registration_success')
+
+						//context.dispatch('getAllUserBetsForCurrentGameWeek');
+
+						resolve(response);
+					})
+					.catch(error => {
+						localStorage.removeItem('token');
+						context.commit('destroyToken');
+						context.commit('auth_error', error)
+						reject(error);
+					})
 				})
 		},
 		destroyToken(context) {

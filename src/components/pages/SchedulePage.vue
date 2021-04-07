@@ -46,8 +46,6 @@ export default {
         this.$store.dispatch('getFullSchedule'); 
         this.getAllUserBetsIfIsLoggedIn();
         this.checkIfScheduleDataAlreadyExists();
-        //this.getAllScheduleDataNeededForNOTLoggedInViewer(); // test comment, if doe snot work please uncomment it
-        //this.getAllNeededValuesFromUserBets(); // test comment, if doe snot work please uncomment it
     },
     methods: {
         getAllUserBetsIfIsLoggedIn(){
@@ -147,8 +145,6 @@ export default {
             return this.$store.getters.getAllUserBets;
         },
         checkIfScheduleDataAlreadyExists(){
-            //this.$store.dispatch('getFullSchedule');
-            //console.log(this.$store.getters.getFullSchedule);
             return this.$store.getters.getFullSchedule;
         }
     }

@@ -2,7 +2,7 @@
     <div>
         <b-container>
             <h1>{{ $t('standingsPage.title') }}</h1>
-            <div v-if="checkIfPlayerStandingsAlreadyExists() > 0">
+            <div v-if="this.$store.getters.getLastPlayerStandings.data.count > 0">
                 <h3>{{ $t('standingsPage.currentStandingsTitle') }}</h3>
                 <div>
                     <b-table striped hover responsive :items="lastPlayerStandings()" :fields="fields"></b-table>
@@ -35,12 +35,12 @@ export default {
         lastPlayerStandings(){
 			return this.$store.getters.getLastPlayerStandings.data.playerResultsTable[0].currentRank;
 		},
-        checkIfPlayerStandingsAlreadyExists(){
+        /*checkIfPlayerStandingsAlreadyExists(){
             //console.log(this.$store.getters.getLastPlayerStandings);
             //let result = this.$store.getters.getLastPlayerStandings
             //console.log(result);
             return this.$store.getters.getLastPlayerStandings.data.count;
-        },
+        },*/
         setPosTdClass(value){
             let firstChar = value.charAt(0);
             if(firstChar === '+'){

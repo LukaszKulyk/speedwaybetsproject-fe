@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div v-if="this.$store.getters.getCurrentAuthStatus === 'error'">
+        <h3>Cannot login. Wrong email or password. Please try again!</h3>
+    </div>
     <b-form action="#" @submit.prevent="login">
       <b-form-group id="email" label="Email Adress" label-for="email-input">
         <b-form-input id="email-input" v-model="form.email" type="text" required placeholder="Email"></b-form-input>
@@ -7,7 +10,6 @@
       <b-form-group id="password" label="Password" label-for="password-input">
         <b-form-input id="password-input" v-model="form.password" type="password" required placeholder="Password"></b-form-input>
       </b-form-group>
-      <!--<b-button  id="submit-button" class="login-widget credentials" type="submit">LOGIN</b-button>-->
       <b-button id="login-component-button" type="submit">LOGIN</b-button>
     </b-form>
   </div>
@@ -30,7 +32,7 @@ export default {
         email: this.form.email,
         password: this.form.password
       })
-        .then(() => {
+        .then(response => {
           this.$router.push('/')
         })
     }
