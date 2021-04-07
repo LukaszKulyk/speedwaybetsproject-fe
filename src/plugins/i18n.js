@@ -52,6 +52,13 @@ const messages = {
             loginButton: 'Login',
             registerButton: 'Register',
             sendBetButton: 'Send'
+        },
+        registerPage: {
+            registerSuccess: 'New User has been created succesfully! You can now login!',
+            registerError: 'Something went wrong. Maybe email or username is already taken?'
+        },
+        loginPage: {
+            loginError: 'Cannot login. Wrong email or password. Please try again!'
         }
     },
     'pl': {
@@ -101,6 +108,13 @@ const messages = {
             loginButton: 'Zaloguj',
             registerButton: 'Rejestracja',
             sendBetButton: 'Wyślij'
+        },
+        registerPage: {
+            registerSuccess: 'Nowy użytkownik założony pomyślnie! Teraz możesz się zalogować!',
+            registerError: 'Coś poszło nie tak. Może email albo username jest już zajęty przez innego użytkownika?'
+        },
+        loginPage: {
+            loginError: 'Nie można się zalogować. Zły email lub hasło. Proszę spróbować ponownie!'
         }
     },
     'lem': {
@@ -150,6 +164,13 @@ const messages = {
             loginButton: 'Лоґін',
             registerButton: 'Рейстрация',
             sendBetButton: 'Пуст'
+        },
+        registerPage: {
+            registerSuccess: 'Новий грач заложений! Тепер можеш ся залoгувати!',
+            registerError: 'Штоси пішло не так. Може емаіл або імено є уж заняте през інчoгo грача?'
+        },
+        loginPage: {
+            loginError: 'Нe можна ся залoгувати. Зьлі вписане емаіл або хасло. Прошу спрібувати іщи раз!'
         }
     }
 }

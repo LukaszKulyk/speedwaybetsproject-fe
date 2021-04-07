@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="this.$store.getters.getCurrentAuthStatus === 'error'">
-        <h3>Cannot login. Wrong email or password. Please try again!</h3>
+        <h3>{{ $t('loginPage.loginError') }}</h3>
     </div>
     <b-form action="#" @submit.prevent="login">
       <b-form-group id="email" label="Email Adress" label-for="email-input">

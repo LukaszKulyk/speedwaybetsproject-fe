@@ -1,10 +1,10 @@
 <template>
   <div>
     <div v-if="this.$store.getters.getCurrentAuthStatus === 'success'">
-        <h3>New User has been created succesfully! You can now login and have fun!</h3>
+        <h3>{{ $t('registerPage.registerSuccess') }}</h3>
     </div>
     <div v-if="this.$store.getters.getCurrentAuthStatus === 'error'">
-        <h3>Something went wrong. Maybe email or username is already taken???</h3>
+        <h3>{{ $t('registerPage.registerError') }}</h3>
     </div>
     <b-form v-if="this.$store.getters.loggedIn === false" action="#" @submit.prevent="register">
         <b-form-group id="email-input-group" label="Email Adress" label-for="email-input" description="Please write an email.">
