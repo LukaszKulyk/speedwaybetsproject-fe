@@ -21,17 +21,13 @@ export default new Vuex.Store({
 
 		//registerStatus
 		registerStatus: null,
-
-        //values
-        //lastGameWeekWhichHasBeenPlayed: 1,
 		currentGameWeek: 1,
 
         //schedule
         fullSchedule: [],
         lastGameWeekPlayed: [],
-        //allGameWeeksScheduled: [],
         lastGameWeekResults: [],
-		nextGameWeekToBeBet: 1,
+		nextGameWeekToBeBet: 2,
 		nextGameWeekGames: [],
 		allPlayedGamesResults: [],
 
@@ -175,7 +171,6 @@ export default new Vuex.Store({
         //player standings
         setLastPlayerStandings(state, playerStandings) {
             state.lastPlayerStandings = playerStandings;
-			//console.log(playerStandings.data.playerResultsTable[0].gameWeek);
 			state.nextGameWeekToBeBet = playerStandings.data.playerResultsTable[0].gameWeek + 1;
         },
 
@@ -254,7 +249,7 @@ export default new Vuex.Store({
 
 						context.commit('registration_success')
 
-						//context.dispatch('getAllUserBetsForCurrentGameWeek');
+						context.dispatch('getAllUserBetsForCurrentGameWeek');
 
 						resolve(response);
 					})
@@ -278,9 +273,7 @@ export default new Vuex.Store({
 							localStorage.removeItem('username');
 							localStorage.removeItem('userId');
 							localStorage.removeItem('isAdmin');
-							//this.state.allUserBetsForCurrentGameWeek = null;
-							//this.state.userId = null;
-							//this.state.isAdmin = null;
+
 							context.commit('destroyToken');
 							resolve(response);
 						})
@@ -297,40 +290,24 @@ export default new Vuex.Store({
         getFullSchedule(context) {
 			axios.get(this.state.domain + 'schedule')
 				.then(schedule => {
-					//return response;
-					//console.log(standings);
 					context.commit('setFullSchedule', schedule);
 				})
         },
         getLastGameWeekPlayed(context) {
 			axios.get(this.state.domain + 'schedule/played/last')
 				.then(lastPlayed => {
-					//return response;
-					//console.log(standings);
 					context.commit('setLastGameWeekPlayed', lastPlayed);
 				})
         },
-        /*getLastGameWeekResults(context) {
-			axios.get(this.state.domain + 'schedule/played/last/game_week/' + this.state.lastGameWeekWhichHasBeenPlayed)
-				.then(lastPlayed => {
-					//return response;
-					//console.log(standings);
-					context.commit('setLastGameWeekResults', lastPlayed);
-				})
-        },*/
 		getInfoAboutNextGameWeekWhichShouldBePlayed(context) {
 			axios.get(this.state.domain + 'schedule/scheduled/next')
 				.then(nextGameWeekInfo => {
-					//return response;
-					//console.log(standings);
 					context.commit('setInfoAboutNextGameWeekWhichShouldBePlayed', nextGameWeekInfo.data.schedule[0].gameWeek);
 				})
         },
 		getNextGameWeekGames(context) {
 			axios.get(this.state.domain + 'schedule/scheduled/next/game_week/' + this.state.nextGameWeekToBeBet)
 				.then(nextGameWeekGames => {
-					//return response;
-					//console.log(standings);
 					context.commit('setNextGameWeekGames', nextGameWeekGames);
 				})
         },
@@ -345,16 +322,12 @@ export default new Vuex.Store({
         getAllStandings(context) {
 			axios.get(this.state.domain + 'standings')
 				.then(standings => {
-					//return response;
-					//console.log(standings);
 					context.commit('setAllStandings', standings);
 				})
         },
         getLastStandingsTable(context) {
             axios.get(this.state.domain + 'standings/table/last')
 				.then(standingsTable => {
-					//return response;
-					//console.log(standings);
 					context.commit('setLastStandingsTable', standingsTable);
 				})
         },
@@ -384,7 +357,6 @@ export default new Vuex.Store({
 			)
 				.then(response => {
 					console.log(response);
-					//return response;
 					context.dispatch('getAllUserBetsForCurrentGameWeek');
 				})
 				.catch(error => {
@@ -401,10 +373,7 @@ export default new Vuex.Store({
 		getAllUserBetsForCurrentGameWeek(context) {
 			axios.get(this.state.domain + 'bet/user/' + this.state.userId + '/game-week/' + this.state.nextGameWeekToBeBet)
 				.then(bets => {
-					//return response;
-					//console.log(standings);
 					context.commit('setAllUserBetsForCurrentGameWeek', bets);
-					//return bets.data.bets;
 				})
         },
 		updateExistingBet(context, bet) {
@@ -444,18 +413,5 @@ export default new Vuex.Store({
 					context.commit('setAllUserBets', bets)
 				})
 		},
-
-		//new idea
-		/*isUserLoggedIn(context) {
-			if(this.state.token !== null) {
-				//this.getAllUserBets;
-				this.actions.getAllUserBets();
-				console.log('User is logged in');
-			}
-			else {
-				console.log('user is not logged in');
-				return null;
-			}
-		}*/
     }
 });
