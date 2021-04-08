@@ -10,6 +10,7 @@
       <!--<b-button  id="submit-button" class="login-widget credentials" type="submit">LOGIN</b-button>-->
       <b-button id="login-component-button" type="submit">LOGIN</b-button>
     </b-form>
+    <span>{{errorMessage}}</span>
   </div>
 </template>
 
@@ -21,17 +22,25 @@ export default {
       form: {
         email: '',
         password: ''
-        }
+        },
+        errorMessage:''
     }
   },
   methods:{
     login() {
+      var _this = this;
+      _this.errorMessage = null;
       this.$store.dispatch('retrieveToken', {
         email: this.form.email,
         password: this.form.password
       })
-        .then(() => {
-          this.$router.push('/')
+        .then((response) => {
+          if(response.status == 200) {
+            this.$router.push('/')
+          }
+          else {
+            _this.errorMessage = response.data.message
+          }
         })
     }
   }

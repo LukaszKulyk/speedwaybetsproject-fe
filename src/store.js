@@ -13,10 +13,10 @@ export default new Vuex.Store({
 		domain: 'https://speedway-wrold-api.herokuapp.com/',
 
         //Users
-        token: localStorage.getItem('token') || null,
-		username: localStorage.getItem('username') || null,
-		userId: localStorage.getItem('userId') || null,
-		isAdmin: localStorage.getItem('isAdmin') || null,
+        token: null,
+		username: null,
+		userId: null,
+		isAdmin: null,
 
         //values
         //lastGameWeekWhichHasBeenPlayed: 1,
@@ -176,6 +176,14 @@ export default new Vuex.Store({
 
     },
     actions: {
+
+		//OnCreate
+		onCreate(context){
+			context.state.token = localStorage.getItem('token') || null,
+			context.state.username = localStorage.getItem('username') || null,
+			context.state.userId = localStorage.getItem('userId') || null,
+			context.state.isAdmin =  localStorage.getItem('isAdmin') || null
+		},
         //Users
         createNewUser(context, user) {
 			axios.post(this.state.domain + 'user/signup', {
@@ -191,9 +199,8 @@ export default new Vuex.Store({
 				})
 		},
 		retrieveToken(context, credentials) {
-			axios.post(this.state.domain + 'user/login', {
+			return axios.post(this.state.domain + 'user/login', {
 				email: credentials.email,
-                userName: credentials.userName,
 				password: credentials.password
 			})
 				.then(response => {
@@ -203,42 +210,27 @@ export default new Vuex.Store({
                     const isAdmin = response.data.isAdmin;
 
 					localStorage.setItem('token', token);
-					context.commit('retrieveToken', token);
 					localStorage.setItem('username', username);
-					context.commit('setUsername', username);
 					localStorage.setItem('userId', userId);
-					context.commit('setUserId', userId);
 					localStorage.setItem('isAdmin', isAdmin);
-                    context.commit('setIsAdmin', isAdmin);
 
-					context.dispatch('getAllUserBetsForCurrentGameWeek');
+					context.state.token = token;
+					context.state.username = username;
+					context.state.isAdmin = isAdmin;
+					context.state.userId = userId;
+					return response;
+				})
+				.catch(error => {
+					return error.response;
 				})
 		},
 		destroyToken(context) {
-
-			axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token; //needed to logout on server site
-
-			if (context.getters.loggedIn) {
-				return new Promise((resolve, reject) => {
-					axios.post('/logout')
-						.then(response => {
-							localStorage.removeItem('token');
-							localStorage.removeItem('username');
-							localStorage.removeItem('userId');
-							localStorage.removeItem('isAdmin');
-							//this.state.allUserBetsForCurrentGameWeek = null;
-							//this.state.userId = null;
-							//this.state.isAdmin = null;
-							context.commit('destroyToken');
-							resolve(response);
-						})
-						.catch(error => {
-							localStorage.removeItem('token');
-							context.commit('destroyToken');
-							reject(error);
-						})
-				})
-			}
+			context.state.token = '';
+			context.state.username = '';
+			context.state.isAdmin = '';
+			context.state.userId = '';
+			localStorage.clear();
+			console.log(context);
 		},
 
         //schedule

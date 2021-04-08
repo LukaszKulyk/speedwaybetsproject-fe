@@ -12,7 +12,7 @@ import LogoutUserComponent from '@/components/LogoutUserComponent'
 
 Vue.use(Router)
 
-export default new Router({
+var router= new Router({
   routes: [
     {
       path: '/',
@@ -56,3 +56,17 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to,from,next)=> {
+  if(to.path != "/login" && localStorage.token == null)
+  {
+    next('/login')
+  }
+  else
+  {
+    next()
+  }
+})
+
+
+export default router
