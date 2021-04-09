@@ -1,5 +1,5 @@
 <template>
-    <b-form inline @submit="onSend" @reset="onReset">
+    <b-form inline @submit.prevent="onSend" @reset="onReset">
         <div>
             <label><strong>{{ game.homeTeam }} - {{ game.awayTeam }}</strong></label>
             <b-form-input size="sm" type="number" min="15" max="75" v-model="bet.homeTeamPoints" required :disabled="game.gameStatus === 'inprogress'"></b-form-input>
