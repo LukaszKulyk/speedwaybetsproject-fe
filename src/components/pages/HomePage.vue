@@ -2,28 +2,38 @@
     <b-container>
         <div>
             <h1>{{ $t('homePage.title') }}</h1>
-            <p><strong>{{ $t('homePage.infoAboutProject') }}</strong></p>
-            <p><strong>{{ $t('homePage.comeandPlayWithUsInfo') }}</strong></p>
-            <p><strong>{{ $t('homePage.awards.awardsInfo') }}</strong></p>
-            <div>
-                <b-table striped hover responsive :items="awardsTableValues" :fields="awardsTableColumns"></b-table>
+            <div v-if="loadingStatus" class="loading-div">
+                <vue-spinner />
             </div>
-            <!--<b-list-group>
-                <b-list-group-item><strong>1. {{translations.awards.award1.pol}}</strong></b-list-group-item>
-                <b-list-group-item><strong>2. {{translations.awards.award2.pol}}</strong></b-list-group-item>
-                <b-list-group-item><strong>3. {{translations.awards.award3.pol}}</strong></b-list-group-item>
-            </b-list-group>-->
-            <p><strong>{{ $t('homePage.collectPointsInfo') }}</strong></p>
-            <div>
-                <b-table striped hover responsive :items="pointsTableValues" :fields="pointsTableColumns"></b-table>
+            <div v-else>
+                <p><strong>{{ $t('homePage.infoAboutProject') }}</strong></p>
+                <p><strong>{{ $t('homePage.comeandPlayWithUsInfo') }}</strong></p>
+                <p><strong>{{ $t('homePage.awards.awardsInfo') }}</strong></p>
+                <div>
+                    <b-table striped hover responsive :items="awardsTableValues" :fields="awardsTableColumns"></b-table>
+                </div>
+                <!--<b-list-group>
+                    <b-list-group-item><strong>1. {{translations.awards.award1.pol}}</strong></b-list-group-item>
+                    <b-list-group-item><strong>2. {{translations.awards.award2.pol}}</strong></b-list-group-item>
+                    <b-list-group-item><strong>3. {{translations.awards.award3.pol}}</strong></b-list-group-item>
+                </b-list-group>-->
+                <p><strong>{{ $t('homePage.collectPointsInfo') }}</strong></p>
+                <div>
+                    <b-table striped hover responsive :items="pointsTableValues" :fields="pointsTableColumns"></b-table>
+                </div>
+                <p><strong>{{ $t('homePage.drawInformation') }}</strong></p>
             </div>
-            <p><strong>{{ $t('homePage.drawInformation') }}</strong></p>
         </div>
     </b-container>
 </template>
 <script>
 /* eslint-disable */
+import Spinner from 'vue-simple-spinner'
+
 export default {
+    components: {
+        vueSpinner: Spinner
+	},
     data() {
         return {
             awardsTableColumns: ['Position', 'Award'],

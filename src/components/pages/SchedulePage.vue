@@ -2,9 +2,22 @@
     <div>
         <b-container>
             <h1>{{ $t('schedulePage.title') }}</h1>
-            <div v-if="this.$store.getters.loggedIn">
-                <div v-if="checkIfUserBetsAlreadyExists">
-                    <b-table striped hover responsive :items="getAllNeededValuesFromUserBets()" :fields="scheduleTableColumnsForLoggedUser"></b-table>
+            <div v-if="loadingStatus" class="loading-div">
+                <vue-spinner />
+            </div>
+            <div v-else>
+                <div v-if="this.$store.getters.loggedIn">
+                    <div v-if="checkIfUserBetsAlreadyExists">
+                        <b-table striped hover responsive :items="getAllNeededValuesFromUserBets()" :fields="scheduleTableColumnsForLoggedUser"></b-table>
+                    </div>
+                    <div v-else>
+                        <div v-if="checkIfScheduleDataAlreadyExists">
+                            <b-table striped hover responsive :items="getAllScheduleDataNeededForNOTLoggedInViewer()" :fields="scheduleTableColumnsDefault"></b-table>
+                        </div>
+                        <div v-else>
+                            <h2>{{ $t('schedulePage.scheduleNotReadyYet') }}</h2>
+                        </div>
+                    </div>
                 </div>
                 <div v-else>
                     <div v-if="checkIfScheduleDataAlreadyExists">
@@ -15,21 +28,18 @@
                     </div>
                 </div>
             </div>
-            <div v-else>
-                <div v-if="checkIfScheduleDataAlreadyExists">
-                    <b-table striped hover responsive :items="getAllScheduleDataNeededForNOTLoggedInViewer()" :fields="scheduleTableColumnsDefault"></b-table>
-                </div>
-                <div v-else>
-                    <h2>{{ $t('schedulePage.scheduleNotReadyYet') }}</h2>
-                </div>
-            </div>
         </b-container>
     </div>
 </template>
 
 <script>
 /* eslint-disable */
+import Spinner from 'vue-simple-spinner'
+
 export default {
+    components: {
+        vueSpinner: Spinner
+    },
     data() {
         return {
             test: {
@@ -45,6 +55,11 @@ export default {
         this.$store.dispatch('getFullSchedule'); 
         this.getAllUserBetsIfIsLoggedIn();
         this.checkIfScheduleDataAlreadyExists();
+    },
+    computed: {
+        loadingStatus() {
+            return this.$store.getters.loadingStatus;
+        }
     },
     methods: {
         getAllUserBetsIfIsLoggedIn(){

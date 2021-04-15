@@ -2,20 +2,25 @@
     <div>
         <b-container>
             <h1>{{ $t('betsPage.title') }}</h1>
-            <div v-if="loggedIn()">
-                <div v-if="checkIfNextGameWeekIsAvailable() > 0">
-                    <div v-for="(game, index) in nextGameWeekGames()" :key="index">
-                        <GameBetComponent :data-test-id="'game-bet-'+index" :game="game"></GameBetComponent>
+            <div v-if="loadingStatus" class="loading-div">
+                <vue-spinner />
+            </div>
+            <div v-else>
+                <div v-if="loggedIn()">
+                    <div v-if="checkIfNextGameWeekIsAvailable() > 0">
+                        <div v-for="(game, index) in nextGameWeekGames()" :key="index">
+                            <GameBetComponent :data-test-id="'game-bet-'+index" :game="game"></GameBetComponent>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <h2>{{ $t('betsPage.noGameWeekScheduledYet') }}</h2>
                     </div>
                 </div>
                 <div v-else>
-                    <h2>{{ $t('betsPage.noGameWeekScheduledYet') }}</h2>
+                    <h2>{{ $t('betsPage.userNotLoggedIn') }}</h2>
+                    <router-link to="/login">{{ $t('betsPage.loginButton') }}</router-link>
+                    <router-link to="/register">{{ $t('betsPage.registerButton') }}</router-link>
                 </div>
-            </div>
-            <div v-else>
-                <h2>{{ $t('betsPage.userNotLoggedIn') }}</h2>
-                <router-link to="/login">{{ $t('betsPage.loginButton') }}</router-link>
-                <router-link to="/register">{{ $t('betsPage.registerButton') }}</router-link>
             </div>
         </b-container>
     </div>
@@ -23,9 +28,12 @@
 
 <script>
 /* eslint-disable */
+import Spinner from 'vue-simple-spinner'
 import GameBetComponent from '../GameBetComponent'
+
 export default {
     components: {
+        vueSpinner: Spinner,
 		GameBetComponent
 	},
     data() {
@@ -42,6 +50,11 @@ export default {
     created(){
         this.$store.dispatch('getNextGameWeekGames');
         this.$store.dispatch('getAllUserBetsForCurrentGameWeek');
+    },
+    computed: {
+        loadingStatus() {
+            return this.$store.getters.loadingStatus;
+        }
     },
     methods: {
         loggedIn(){

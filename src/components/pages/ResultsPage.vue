@@ -2,21 +2,26 @@
     <div>
         <b-container>
             <h1>{{ $t('resultsPage.title') }}</h1>
-            <div v-if="this.$store.getters.getLastStandingsTable">
-                <h2>{{ $t('resultsPage.tableTitle') }}</h2>
-                <div>
-                    <b-table striped hover responsive :items="lastStandingsTable()" :fields="standingsTableColumns"></b-table>
-                </div>
+            <div v-if="loadingStatus" class="loading-div">
+                <vue-spinner />
             </div>
             <div v-else>
-                <h2>{{ $t('resultsPage.ifNoResultsYet') }}</h2>
-            </div>
-            <div v-if="this.$store.getters.getAllPlayedGamesResults">
-                <h3><strong>{{ $t('resultsPage.playedGames') }}</strong></h3>
-                <div v-for="(game, index) in allPlayedGamesResults()" :key="index">
+                <div v-if="this.$store.getters.getLastStandingsTable">
+                    <h2>{{ $t('resultsPage.tableTitle') }}</h2>
                     <div>
-                        <p><strong>{{ game.homeTeam }} - {{ game.awayTeam }}</strong></p>
-                        <p><strong>{{ game.gameResult.homeTeamPoints }} : {{ game.gameResult.awayTeamPoints }}</strong></p>
+                        <b-table striped hover responsive :items="lastStandingsTable()" :fields="standingsTableColumns"></b-table>
+                    </div>
+                </div>
+                <div v-else>
+                    <h2>{{ $t('resultsPage.ifNoResultsYet') }}</h2>
+                </div>
+                <div v-if="this.$store.getters.getAllPlayedGamesResults">
+                    <h3><strong>{{ $t('resultsPage.playedGames') }}</strong></h3>
+                    <div v-for="(game, index) in allPlayedGamesResults()" :key="index">
+                        <div>
+                            <p><strong>{{ game.homeTeam }} - {{ game.awayTeam }}</strong></p>
+                            <p><strong>{{ game.gameResult.homeTeamPoints }} : {{ game.gameResult.awayTeamPoints }}</strong></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -26,7 +31,12 @@
 
 <script>
 /* eslint-disable */
+import Spinner from 'vue-simple-spinner'
+
 export default {
+    components: {
+        vueSpinner: Spinner
+    },
     data() {
         return {
             translations: {
@@ -40,6 +50,11 @@ export default {
     created(){
         this.$store.dispatch('getLastStandingsTable');
         this.$store.dispatch('getAllPlayedGamesResults');  
+    },
+    computed: {
+        loadingStatus() {
+            return this.$store.getters.loadingStatus;
+        }
     },
     methods: {
         lastStandingsTable(){

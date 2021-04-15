@@ -13,6 +13,9 @@ export default new Vuex.Store({
 		domain: 'https://speedway-wrold-api.herokuapp.com/',
 		//domain: 'http://localhost:3000/',
 
+		//loading status
+		loadingStatus: false,
+
         //Users
         token: localStorage.getItem('token') || null,
 		username: localStorage.getItem('username') || null,
@@ -48,6 +51,11 @@ export default new Vuex.Store({
 
     },
     getters: {
+		//loading status
+		loadingStatus (state) {
+			return state.loadingStatus
+		},
+
         //Users
         loggedIn(state) {
 			return state.token !== null;
@@ -115,6 +123,11 @@ export default new Vuex.Store({
 
     },
     mutations: {
+		//loading status
+		loadingStatus (state, newLoadingStatus) {
+			state.loadingStatus = newLoadingStatus
+		},
+
         //Users
         retrieveToken(state, token) {
 			state.token = token;
@@ -288,9 +301,15 @@ export default new Vuex.Store({
 
         //schedule
         getFullSchedule(context) {
+			context.commit('loadingStatus', true)
+
 			axios.get(this.state.domain + 'schedule')
 				.then(schedule => {
 					context.commit('setFullSchedule', schedule);
+					context.commit('loadingStatus', false)
+				})
+				.catch(error => {
+					console.log(error)
 				})
         },
         getLastGameWeekPlayed(context) {
@@ -306,15 +325,27 @@ export default new Vuex.Store({
 				})
         },
 		getNextGameWeekGames(context) {
+			context.commit('loadingStatus', true)
+
 			axios.get(this.state.domain + 'schedule/scheduled/next/game_week/' + this.state.nextGameWeekToBeBet)
 				.then(nextGameWeekGames => {
 					context.commit('setNextGameWeekGames', nextGameWeekGames);
+					context.commit('loadingStatus', false)
+				})
+				.catch(error => {
+					console.log(error)
 				})
         },
 		getAllPlayedGamesResults(context) {
+			context.commit('loadingStatus', true)
+
 			axios.get(this.state.domain + 'schedule/played/all')
 				.then(allPlayedGamesResults => {
 					context.commit('setAllPlayedGamesResults', allPlayedGamesResults)
+					context.commit('loadingStatus', false)
+				})
+				.catch(error => {
+					console.log(error)
 				})
 		},
         
@@ -326,18 +357,30 @@ export default new Vuex.Store({
 				})
         },
         getLastStandingsTable(context) {
+			context.commit('loadingStatus', true)
+
             axios.get(this.state.domain + 'standings/table/last')
 				.then(standingsTable => {
 					context.commit('setLastStandingsTable', standingsTable);
+					context.commit('loadingStatus', false)
+				})
+				.catch(error => {
+					console.log(error)
 				})
         },
 
         //player standings
         getLastPlayerStandings(context) {
+			context.commit('loadingStatus', true)
+
             axios.get(this.state.domain + 'players/results/last')
                 .then(playerStandings => {
                     context.commit('setLastPlayerStandings', playerStandings);
+					context.commit('loadingStatus', false)
                 })
+				.catch(error => {
+					console.log(error)
+				})
         },
 
 		//Bets
@@ -371,9 +414,15 @@ export default new Vuex.Store({
 				})
 		},
 		getAllUserBetsForCurrentGameWeek(context) {
+			context.commit('loadingStatus', true)
+
 			axios.get(this.state.domain + 'bet/user/' + this.state.userId + '/game-week/' + this.state.nextGameWeekToBeBet)
 				.then(bets => {
 					context.commit('setAllUserBetsForCurrentGameWeek', bets);
+					context.commit('loadingStatus', false)
+				})
+				.catch(error => {
+					console.log(error)
 				})
         },
 		updateExistingBet(context, bet) {
@@ -408,9 +457,15 @@ export default new Vuex.Store({
 		},
 
 		getAllUserBets(context) {
+			context.commit('loadingStatus', true)
+
 			axios.get(this.state.domain + 'bet/user/' + this.state.userId + '/all')
 				.then(bets => {
 					context.commit('setAllUserBets', bets)
+					context.commit('loadingStatus', false)
+				})
+				.catch(error => {
+					console.log(error)
 				})
 		},
     }
