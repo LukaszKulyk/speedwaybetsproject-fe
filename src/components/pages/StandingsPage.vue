@@ -35,7 +35,7 @@ export default {
                 pol: 'Aktualna Tabela',
                 lem: 'Aktualny wyniky'
             },
-            fields: [{key: 'pos'}, {key: 'username'}, {key: 'points'}, {key: 'arrow', tdClass: 'setPosTdClass'}]
+            fields: [{key: 'pos'}, {key: 'username'}, {key: 'points'}, {key: '+/-', tdClass: 'setPosTdClass'}]
         }
     },
     created(){
