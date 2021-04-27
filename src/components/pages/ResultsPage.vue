@@ -44,7 +44,7 @@ export default {
                 pol: 'Kolejka I',
                 lem: 'Runda I'
             },
-            standingsTableColumns: ['pos', 'team', 'gamesPlayed', 'bigPoints', 'smallPoints', 'bonuses', 'wins', 'loses', 'draws',{ key: 'arrow', tdClass: 'setPosTdClass'}],
+            standingsTableColumns: ['pos', 'team', 'gamesPlayed', 'bigPoints', 'smallPoints', 'bonuses', 'wins', 'loses', 'draws',{ key: '+/-', tdClass: 'setPosTdClass'}],
         }
     },
     created(){
