@@ -11,7 +11,7 @@ export default new Vuex.Store({
     state: {
 		//domain
 		domain: 'https://speedway-wrold-api.herokuapp.com/',
-		//domain: 'http://localhost:3000/',
+		//domain: 'http://localhost:3001/',
 
 		//loading status
 		loadingStatus: false,
@@ -30,7 +30,7 @@ export default new Vuex.Store({
         fullSchedule: [],
         lastGameWeekPlayed: [],
         lastGameWeekResults: [],
-		nextGameWeekToBeBet: 3,
+		nextGameWeekToBeBet: 4,
 		nextGameWeekGames: [],
 		allPlayedGamesResults: [],
 
