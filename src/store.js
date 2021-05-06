@@ -10,8 +10,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
 		//domain
-		domain: 'https://speedway-wrold-api.herokuapp.com/',
-		//domain: 'http://localhost:3001/',
+		//domain: 'https://speedway-wrold-api.herokuapp.com/',
+		domain: 'http://localhost:3000/',
 
 		//loading status
 		loadingStatus: false,
@@ -211,6 +211,12 @@ export default new Vuex.Store({
 
     },
     actions: {
+		onCreate(context){
+			context.state.token = localStorage.getItem('token') || null,
+			context.state.username = localStorage.getItem('username') || null,
+			context.state.userId = localStorage.getItem('userId') || null,
+			context.state.isAdmin =  localStorage.getItem('isAdmin') || null
+		},
         //Users
         createNewUser(context, user) {
 			return new Promise((resolve, reject) => {
@@ -244,10 +250,10 @@ export default new Vuex.Store({
 						const userId = response.data._id;
 						const isAdmin = response.data.isAdmin;
 
-						console.log(token)
+						/*console.log(token)
 						console.log(username)
 						console.log(userId)
-						console.log(isAdmin)
+						console.log(isAdmin)*/
 
 						localStorage.setItem('token', token);
 						context.commit('retrieveToken', token);
@@ -288,6 +294,9 @@ export default new Vuex.Store({
 							localStorage.removeItem('isAdmin');
 
 							context.commit('destroyToken');
+
+							delete axios.defaults.headers.common['Authorization']
+
 							resolve(response);
 						})
 						.catch(error => {

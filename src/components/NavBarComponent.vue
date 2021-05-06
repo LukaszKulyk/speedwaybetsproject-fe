@@ -27,8 +27,9 @@
 
         <b-nav-item-dropdown right>
           <template #button-content>
-            <em v-if="loggedIn()">{{getUsername()}}</em>
-            <em v-else>User</em>
+            <!--<em v-if="loggedIn()">{{getUsername()}}</em>-->
+            <!--<em v-else>User</em>-->
+            <em>{{getUsername()}}</em>
           </template>
           <b-dropdown-item v-if="!loggedIn()" to="/login">{{ $t('navBarComponent.login') }}</b-dropdown-item>
           <b-dropdown-item v-if="!loggedIn()" to="/register">{{ $t('navBarComponent.register') }}</b-dropdown-item>
@@ -60,7 +61,13 @@ export default {
       return this.$store.getters.loggedIn
     },
     getUsername () {
-      return this.$store.getters.getUsername
+      //return this.$store.getters.getUsername
+      if(this.$store.getters.getUsername) {
+        return this.$store.getters.getUsername
+      }
+      else {
+        return 'User'
+      }
     }
   }
 }

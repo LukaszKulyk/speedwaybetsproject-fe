@@ -12,7 +12,7 @@ import LogoutUserComponent from '@/components/LogoutUserComponent'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -56,3 +56,29 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to,from,next)=> {
+
+  if(to.path == "/bets" && localStorage.token == null)
+  {
+    next('/login')
+  }
+  else
+  {
+    next()
+  }
+})
+
+
+/*function checkTokenValidity(token) {
+  console.log('We are here')
+  if (token) {
+      const decodedToken = jwt.decode(token)
+      console.log(decodedToken)
+      return decodedToken && (decodedToken.exp * 1000) > new Date().getTime()
+  
+  }
+  return false
+}*/
+
+export default router 
