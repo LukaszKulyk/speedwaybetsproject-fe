@@ -30,7 +30,7 @@ export default new Vuex.Store({
         fullSchedule: [],
         lastGameWeekPlayed: [],
         lastGameWeekResults: [],
-		nextGameWeekToBeBet: 6,
+		nextGameWeekToBeBet: 7,
 		nextGameWeekGames: [],
 		allPlayedGamesResults: [],
 
