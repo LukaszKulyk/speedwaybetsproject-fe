@@ -12,8 +12,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
 		//domain
-		//domain: 'https://speedway-wrold-api.herokuapp.com/',
-		domain: 'http://localhost:3000/',
+		domain: 'https://speedway-wrold-api.herokuapp.com/',
+		//domain: 'http://localhost:3000/',
 
 		//token expiration time
 		tokenExpirationTime: localStorage.getItem('tokenExpirationTime') || null,
@@ -35,7 +35,7 @@ export default new Vuex.Store({
         fullSchedule: [],
         lastGameWeekPlayed: [],
         lastGameWeekResults: [],
-		nextGameWeekToBeBet: 5,
+		nextGameWeekToBeBet: 7,
 		nextGameWeekGames: [],
 		allPlayedGamesResults: [],
 
@@ -232,7 +232,8 @@ export default new Vuex.Store({
 			context.state.token = localStorage.getItem('token') || null,
 			context.state.username = localStorage.getItem('username') || null,
 			context.state.userId = localStorage.getItem('userId') || null,
-			context.state.isAdmin =  localStorage.getItem('isAdmin') || null
+			context.state.isAdmin =  localStorage.getItem('isAdmin') || null,
+			context.state.tokenExpirationTime = localStorage.getItem('tokenExpirationTime') || null
 		},
         //Users
         createNewUser(context, user) {
@@ -267,11 +268,6 @@ export default new Vuex.Store({
 						const userId = response.data._id;
 						const isAdmin = response.data.isAdmin;
 
-						/*console.log(token)
-						console.log(username)
-						console.log(userId)
-						console.log(isAdmin)*/
-
 						localStorage.setItem('token', token);
 						context.commit('retrieveToken', token);
 						localStorage.setItem('username', username);
@@ -287,8 +283,8 @@ export default new Vuex.Store({
 
 						context.dispatch('getAllUserBetsForCurrentGameWeek');
 
-						let test = new Date();
-						let tokenExpirationTime = dateHelpers.setTokenExpirationTime(test, 0.1);
+						let currentDate = new Date();
+						let tokenExpirationTime = dateHelpers.setTokenExpirationTime(currentDate, 60);
 						//console.log(tokenExpirationTime);
 
 						localStorage.setItem('tokenExpirationTime', tokenExpirationTime);

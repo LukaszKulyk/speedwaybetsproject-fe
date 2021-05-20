@@ -73,23 +73,10 @@ router.beforeEach((to,from,next)=> {
   }
 
   let isTokenValid = dateHelpers.isTokenValid(localStorage.getItem('tokenExpirationTime'))
-  console.log(isTokenValid)
   if(isTokenValid === false) {
     store.dispatch('destroyToken')
   }
 
 })
-
-
-/*function checkTokenValidity(token) {
-  console.log('We are here')
-  if (token) {
-      const decodedToken = jwt.decode(token)
-      console.log(decodedToken)
-      return decodedToken && (decodedToken.exp * 1000) > new Date().getTime()
-  
-  }
-  return false
-}*/
 
 export default router 
