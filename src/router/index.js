@@ -10,6 +10,10 @@ import RegisterUserComponent from '@/components/RegisterUserComponent'
 import LoginUserComponent from '@/components/LoginUserComponent'
 import LogoutUserComponent from '@/components/LogoutUserComponent'
 
+import dateHelpers from '../helpers/date';
+
+import store from '../store'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -67,6 +71,13 @@ router.beforeEach((to,from,next)=> {
   {
     next()
   }
+
+  let isTokenValid = dateHelpers.isTokenValid(localStorage.getItem('tokenExpirationTime'))
+  console.log(isTokenValid)
+  if(isTokenValid === false) {
+    store.dispatch('destroyToken')
+  }
+
 })
 
 

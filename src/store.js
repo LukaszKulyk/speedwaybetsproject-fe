@@ -5,6 +5,8 @@ import Vuex from 'vuex';
 
 import axios from 'axios';
 
+import dateHelpers from '../src/helpers/date';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -12,6 +14,9 @@ export default new Vuex.Store({
 		//domain
 		//domain: 'https://speedway-wrold-api.herokuapp.com/',
 		domain: 'http://localhost:3000/',
+
+		//token expiration time
+		tokenExpirationTime: localStorage.getItem('tokenExpirationTime') || null,
 
 		//loading status
 		loadingStatus: false,
@@ -54,6 +59,11 @@ export default new Vuex.Store({
 		//loading status
 		loadingStatus (state) {
 			return state.loadingStatus
+		},
+
+		//token expiration time
+		getTokenExpirationTime(state) {
+			return state.tokenExpirationTime
 		},
 
         //Users
@@ -128,6 +138,12 @@ export default new Vuex.Store({
 			state.loadingStatus = newLoadingStatus
 		},
 
+		//token expiration time
+
+		setTokenExpirationTime(state, tokenExpirationTime){
+			state.tokenExpirationTime =  tokenExpirationTime
+		},
+
         //Users
         retrieveToken(state, token) {
 			state.token = token;
@@ -137,6 +153,7 @@ export default new Vuex.Store({
 			state.username = null;
 			state.userId = null;
 			state.isAdmin = null;
+			state.tokenExpirationTime = null;
 		},
 		setUsername(state, username) {
 			state.username = username;
@@ -270,6 +287,13 @@ export default new Vuex.Store({
 
 						context.dispatch('getAllUserBetsForCurrentGameWeek');
 
+						let test = new Date();
+						let tokenExpirationTime = dateHelpers.setTokenExpirationTime(test, 0.1);
+						//console.log(tokenExpirationTime);
+
+						localStorage.setItem('tokenExpirationTime', tokenExpirationTime);
+						context.commit('setTokenExpirationTime', tokenExpirationTime)
+
 						resolve(response);
 					})
 					.catch(error => {
@@ -292,6 +316,7 @@ export default new Vuex.Store({
 							localStorage.removeItem('username');
 							localStorage.removeItem('userId');
 							localStorage.removeItem('isAdmin');
+							localStorage.removeItem('tokenExpirationTime')
 
 							context.commit('destroyToken');
 
