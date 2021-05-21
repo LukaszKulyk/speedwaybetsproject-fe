@@ -5,13 +5,18 @@ import Vuex from 'vuex';
 
 import axios from 'axios';
 
+import dateHelpers from '../src/helpers/date';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
 		//domain
 		domain: 'https://speedway-wrold-api.herokuapp.com/',
-		//domain: 'http://localhost:3001/',
+		//domain: 'http://localhost:3000/',
+
+		//token expiration time
+		tokenExpirationTime: localStorage.getItem('tokenExpirationTime') || null,
 
 		//loading status
 		loadingStatus: false,
@@ -54,6 +59,11 @@ export default new Vuex.Store({
 		//loading status
 		loadingStatus (state) {
 			return state.loadingStatus
+		},
+
+		//token expiration time
+		getTokenExpirationTime(state) {
+			return state.tokenExpirationTime
 		},
 
         //Users
@@ -128,6 +138,12 @@ export default new Vuex.Store({
 			state.loadingStatus = newLoadingStatus
 		},
 
+		//token expiration time
+
+		setTokenExpirationTime(state, tokenExpirationTime){
+			state.tokenExpirationTime =  tokenExpirationTime
+		},
+
         //Users
         retrieveToken(state, token) {
 			state.token = token;
@@ -137,6 +153,7 @@ export default new Vuex.Store({
 			state.username = null;
 			state.userId = null;
 			state.isAdmin = null;
+			state.tokenExpirationTime = null;
 		},
 		setUsername(state, username) {
 			state.username = username;
@@ -211,6 +228,13 @@ export default new Vuex.Store({
 
     },
     actions: {
+		onCreate(context){
+			context.state.token = localStorage.getItem('token') || null,
+			context.state.username = localStorage.getItem('username') || null,
+			context.state.userId = localStorage.getItem('userId') || null,
+			context.state.isAdmin =  localStorage.getItem('isAdmin') || null,
+			context.state.tokenExpirationTime = localStorage.getItem('tokenExpirationTime') || null
+		},
         //Users
         createNewUser(context, user) {
 			return new Promise((resolve, reject) => {
@@ -244,11 +268,6 @@ export default new Vuex.Store({
 						const userId = response.data._id;
 						const isAdmin = response.data.isAdmin;
 
-						console.log(token)
-						console.log(username)
-						console.log(userId)
-						console.log(isAdmin)
-
 						localStorage.setItem('token', token);
 						context.commit('retrieveToken', token);
 						localStorage.setItem('username', username);
@@ -263,6 +282,13 @@ export default new Vuex.Store({
 						context.commit('registration_success')
 
 						context.dispatch('getAllUserBetsForCurrentGameWeek');
+
+						let currentDate = new Date();
+						let tokenExpirationTime = dateHelpers.setTokenExpirationTime(currentDate, 60);
+						//console.log(tokenExpirationTime);
+
+						localStorage.setItem('tokenExpirationTime', tokenExpirationTime);
+						context.commit('setTokenExpirationTime', tokenExpirationTime)
 
 						resolve(response);
 					})
@@ -286,8 +312,12 @@ export default new Vuex.Store({
 							localStorage.removeItem('username');
 							localStorage.removeItem('userId');
 							localStorage.removeItem('isAdmin');
+							localStorage.removeItem('tokenExpirationTime')
 
 							context.commit('destroyToken');
+
+							delete axios.defaults.headers.common['Authorization']
+
 							resolve(response);
 						})
 						.catch(error => {
