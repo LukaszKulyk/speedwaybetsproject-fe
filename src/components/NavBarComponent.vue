@@ -19,22 +19,22 @@
 
           <div class="locale-switcher">
               <select v-model="$i18n.locale">
-                <option value="en">🇬🇧English</option>
-                <option value="pl">🇵🇱Polski</option>
+                <option value="en">🇬🇧 English</option>
+                <option value="pl">🇵🇱 Polski</option>
                 <option value="lem">Лемко</option>
               </select>
           </div>
 
         <b-nav-item-dropdown right>
           <template #button-content>
-            <em v-if="loggedIn()">🧑‍💻{{getUsername()}}</em>
-            <em v-else>👤User</em>
+            <em v-if="loggedIn()">🧑‍💻 {{getUsername()}}</em>
+            <em v-else>👤 User</em>
             <!--<em>{{getUsername()}}</em>-->
           </template>
-          <b-dropdown-item v-if="!loggedIn()" to="/login">✏️{{ $t('navBarComponent.login') }}</b-dropdown-item>
-          <b-dropdown-item v-if="!loggedIn()" to="/register">🔐{{ $t('navBarComponent.register') }}</b-dropdown-item>
+          <b-dropdown-item v-if="!loggedIn()" to="/login">✏️ {{ $t('navBarComponent.login') }}</b-dropdown-item>
+          <b-dropdown-item v-if="!loggedIn()" to="/register">🔐 {{ $t('navBarComponent.register') }}</b-dropdown-item>
           <b-dropdown-item v-if="loggedIn()" to="/bets">🎲 {{ $t('navBarComponent.makeABet') }}</b-dropdown-item>
-          <b-dropdown-item v-if="loggedIn()" to="/logout">🔒{{ $t('navBarComponent.logout') }}</b-dropdown-item>
+          <b-dropdown-item v-if="loggedIn()" to="/logout">🔒 {{ $t('navBarComponent.logout') }}</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
