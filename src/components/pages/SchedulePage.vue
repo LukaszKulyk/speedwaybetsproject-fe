@@ -180,6 +180,7 @@ export default {
             return this.$store.getters.getFullSchedule;
         },
         onRowClicked (item, index, event) {
+            this.$store.dispatch('getAllGameBets');
             item._showDetails = !item._showDetails;
         }
     }
