@@ -13,7 +13,7 @@ export default new Vuex.Store({
     state: {
 		//domain
 		//domain: 'https://speedway-wrold-api.herokuapp.com/',
-		domain: 'http://localhost:3000/',
+		domain: 'http://localhost:3002/',
 
 		//token expiration time
 		tokenExpirationTime: localStorage.getItem('tokenExpirationTime') || null,
@@ -221,7 +221,7 @@ export default new Vuex.Store({
 		},
 
 		setAllGameBets(state, bets){
-			state.setAllGameBets = bets;
+			state.allGameBets = bets;
 		},
 
 		//new authorization handling
@@ -429,7 +429,8 @@ export default new Vuex.Store({
 				userId: this.state.userId,
 				gameWeek: this.state.nextGameWeekToBeBet,
 				homeTeamPoints: bet.homeTeamPoints,
-				awayTeamPoints: bet.awayTeamPoints
+				awayTeamPoints: bet.awayTeamPoints,
+				username: this.state.username //to be tested
 			},
 			{
 				headers: {
@@ -508,19 +509,41 @@ export default new Vuex.Store({
 				})
 		},
 
-		getAllGameBets(context) {
-			context.commit('loadingStatus', true)
+		getAllGameBets(context, gameId) {
+			//context.commit('loadingStatus', true)
 
-			axios.get(this.state.domain + 'bet/game/' + '607424ef3cc97a08decdedee' + '/all')
+			axios.get(this.state.domain + 'bet/game/' + gameId + '/all')
 				.then(bets => {
 					//context.commit('setAllUserBets', bets)
 					//context.commit('loadingStatus', false)
 					context.commit('setAllGameBets', bets)
-					context.commit('loadingStatus', false)
+					//context.commit('loadingStatus', false)
+					//return bets
 				})
 				.catch(error => {
 					console.log(error)
 				})
+		},
+
+		getTest(context, gameId) {
+			//context.commit('loadingStatus', true)
+			let test = {};
+
+			axios.get(this.state.domain + 'bet/game/' + gameId + '/all')
+				.then(bets => {
+					//context.commit('setAllUserBets', bets)
+					//context.commit('loadingStatus', false)
+					context.commit('setAllGameBets', bets)
+					//context.commit('loadingStatus', false)
+					//console.log(bets)
+					//this.test = this.bets
+					//return test
+				})
+				.catch(error => {
+					console.log(error)
+				})
+			
+				return test
 		}
     }
 });

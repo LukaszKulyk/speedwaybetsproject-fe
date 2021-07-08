@@ -22,18 +22,19 @@
                 <div v-else>
                     <div v-if="checkIfScheduleDataAlreadyExists">
                         <b-table striped hover responsive :items="getAllScheduleDataNeededForNOTLoggedInViewer()" :fields="scheduleTableColumnsDefault"  @row-clicked="onRowClicked">
-                            <template slot="actions" slot-scope="row">
+                            <!---<template slot="actions" slot-scope="row">--->
                                 <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
-                                <b-button size="sm" @click.stop="row.toggleDetails">
+                                <!--<b-button size="sm" @click.stop="row.toggleDetails">
                                     {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
                                 </b-button>
-                            </template>
+                            </template>-->
                             <template slot="row-details" slot-scope="row">
                                    <!-- Your row details' content here -->
-                                <!--<b-card>
+                                <!---<b-card>
                                     <h1>hello</h1>
-                                </b-card>-->
-                                <b-table striped hover sticky-header responsive :items="testItems" :fields="testFields"></b-table>
+                                </b-card>--->
+                                <AllGameBetsComponent :gameId="getAllScheduleDataNeededForNOTLoggedInViewer()[row.index].gameId"></AllGameBetsComponent>
+                                <!--<b-table striped hover sticky-header responsive :items="testItems" :fields="testFields"></b-table>-->
                             </template>
                         </b-table>
                     </div>
@@ -49,13 +50,16 @@
 <script>
 /* eslint-disable */
 import Spinner from 'vue-simple-spinner'
+import AllGameBetsComponent from '../AllGameBetsComponent'
 
 export default {
     components: {
-        vueSpinner: Spinner
+        vueSpinner: Spinner,
+        AllGameBetsComponent
     },
     data() {
         return {
+            gameId: 'test',
             test: {
                 gameWeekTitle: 'First'
             },
@@ -154,9 +158,11 @@ export default {
                             status: game.gameStatus,
                             game: game.homeTeam + ' - ' + game.awayTeam,
                             result: game.gameResult.homeTeamPoints + ' : ' + game.gameResult.awayTeamPoints,
+                            gameId: game._id,
                             _showDetails: false
                         }
                     arrayOfValuesForNOTLoggedInViewer.push(valuesToTable);
+                    console.log(arrayOfValuesForNOTLoggedInViewer)
                 }
                 else{
                     const valuesToTable = {
@@ -180,7 +186,7 @@ export default {
             return this.$store.getters.getFullSchedule;
         },
         onRowClicked (item, index, event) {
-            this.$store.dispatch('getAllGameBets');
+            //this.$store.dispatch('getAllGameBets');
             item._showDetails = !item._showDetails;
         }
     }
