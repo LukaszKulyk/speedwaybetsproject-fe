@@ -91,9 +91,6 @@ export default {
             let fullSchedule = this.$store.getters.getFullSchedule.data.schedule;
             let arrayOfValuesForLoggedInUser = [];
 
-            //
-            //let testArray = [];
-
             fullSchedule.forEach(function(game){
 
                 if(game.isGamePlayed === true){
