@@ -50,6 +50,7 @@ export default new Vuex.Store({
 		specificGameBet: {},
 		allUserBetsForCurrentGameWeek: [],
 		allUserBets: {},
+		allGameBets:{},
 
 		//new authoriaztion approach
 		status: ''
@@ -115,6 +116,10 @@ export default new Vuex.Store({
         getLastPlayerStandings(state) {
             return state.lastPlayerStandings;
         },
+
+		getAllGameBets(state){
+			return state.allGameBets;
+		},
 
 		//Bet
 		getSpecificGameBet(state) {
@@ -213,6 +218,10 @@ export default new Vuex.Store({
 		},
 		setAllUserBets(state, bets){
 			state.allUserBets = bets;
+		},
+
+		setAllGameBets(state, bets){
+			state.allGameBets = bets;
 		},
 
 		//new authorization handling
@@ -420,7 +429,8 @@ export default new Vuex.Store({
 				userId: this.state.userId,
 				gameWeek: this.state.nextGameWeekToBeBet,
 				homeTeamPoints: bet.homeTeamPoints,
-				awayTeamPoints: bet.awayTeamPoints
+				awayTeamPoints: bet.awayTeamPoints,
+				username: this.state.username //to be tested
 			},
 			{
 				headers: {
@@ -493,6 +503,17 @@ export default new Vuex.Store({
 				.then(bets => {
 					context.commit('setAllUserBets', bets)
 					context.commit('loadingStatus', false)
+				})
+				.catch(error => {
+					console.log(error)
+				})
+		},
+
+		getAllGameBets(context, gameId) {
+
+			axios.get(this.state.domain + 'bet/game/' + gameId + '/all')
+				.then(bets => {
+					context.commit('setAllGameBets', bets)
 				})
 				.catch(error => {
 					console.log(error)
