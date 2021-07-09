@@ -55,7 +55,6 @@ export default {
     },
     data() {
         return {
-            gameId: 'test',
             test: {
                 gameWeekTitle: 'First'
             },
@@ -63,9 +62,6 @@ export default {
             scheduleTableColumnsDefault: ['week', 'date', 'status', 'game', 'result'],
             scheduleTableValuesForLoggedUser: [{week: 'week'}, {date: 'date'}, {status:'status'}, {game:'game'}, {result:'result'}, {bet:'bet'}, {points:'points'}],
             scheduleTableValuesDefault: [{week: 'week'}, {date: 'date'}, {status:'status'}, {game:'game'}, {result:'result'}],
-            testFields: ["user", "bet", "collectedPoints"],
-            testItems:[{user: "falubazluki", bet: "50:40", collectedPoints: 10}, {user: "spaslak47", bet: "52:38", collectedPoints: 6}, {user: "testUser", bet: "40:50", collectedPoints: 0},
-            {user: "falubazluki", bet: "50:40", collectedPoints: 10}, {user: "spaslak47", bet: "52:38", collectedPoints: 6}, {user: "testUser", bet: "40:50", collectedPoints: 0}]
         }
     },
     created(){
@@ -162,7 +158,6 @@ export default {
                             _showDetails: false
                         }
                     arrayOfValuesForNOTLoggedInViewer.push(valuesToTable);
-                    //console.log(arrayOfValuesForNOTLoggedInViewer)
                 }
                 else{
                     const valuesToTable = {
