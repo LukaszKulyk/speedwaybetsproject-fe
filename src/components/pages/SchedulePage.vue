@@ -124,7 +124,8 @@ export default {
                             game: game.homeTeam + ' - ' + game.awayTeam,
                             result: game.gameResult.homeTeamPoints + ' : ' + game.gameResult.awayTeamPoints,
                             bet: '-',
-                            points: 0
+                            points: 0,
+                            _showDetails: false
                         }
                         arrayOfValuesForLoggedInUser.push(valuesToTable);
                     }
@@ -137,7 +138,8 @@ export default {
                         game: game.homeTeam + ' - ' + game.awayTeam,
                         result: '-',
                         bet: '-',
-                        points: '-'
+                        points: '-',
+                        _showDetails: false
                     }
                     arrayOfValuesForLoggedInUser.push(valuesToTable);
                 }

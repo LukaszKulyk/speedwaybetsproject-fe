@@ -12,8 +12,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
 		//domain
-		//domain: 'https://speedway-wrold-api.herokuapp.com/',
-		domain: 'http://localhost:3000/',
+		domain: 'https://speedway-wrold-api.herokuapp.com/',
+		//domain: 'http://localhost:3000/',
 
 		//token expiration time
 		tokenExpirationTime: localStorage.getItem('tokenExpirationTime') || null,
@@ -35,7 +35,7 @@ export default new Vuex.Store({
         fullSchedule: [],
         lastGameWeekPlayed: [],
         lastGameWeekResults: [],
-		nextGameWeekToBeBet: 8,
+		nextGameWeekToBeBet: 14,
 		nextGameWeekGames: [],
 		allPlayedGamesResults: [],
 
@@ -510,41 +510,14 @@ export default new Vuex.Store({
 		},
 
 		getAllGameBets(context, gameId) {
-			//context.commit('loadingStatus', true)
 
 			axios.get(this.state.domain + 'bet/game/' + gameId + '/all')
 				.then(bets => {
-					//context.commit('setAllUserBets', bets)
-					//context.commit('loadingStatus', false)
 					context.commit('setAllGameBets', bets)
-					//context.commit('loadingStatus', false)
-					//return bets
 				})
 				.catch(error => {
 					console.log(error)
 				})
 		},
-		/*
-		getTest(context, gameId) {
-			//context.commit('loadingStatus', true)
-			let test = {};
-
-			axios.get(this.state.domain + 'bet/game/' + gameId + '/all')
-				.then(bets => {
-					//context.commit('setAllUserBets', bets)
-					//context.commit('loadingStatus', false)
-					context.commit('setAllGameBets', bets)
-					//context.commit('loadingStatus', false)
-					//console.log(bets)
-					//this.test = this.bets
-					//return test
-				})
-				.catch(error => {
-					console.log(error)
-				})
-			
-				return test
-		}
-		*/
     }
 });
