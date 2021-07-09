@@ -8,11 +8,18 @@
             <div v-else>
                 <div v-if="this.$store.getters.loggedIn">
                     <div v-if="checkIfUserBetsAlreadyExists">
-                        <b-table striped hover responsive :items="getAllNeededValuesFromUserBets()" :fields="scheduleTableColumnsForLoggedUser"></b-table>
+                        <b-table striped hover responsive :items="getAllNeededValuesFromUserBets()" :fields="scheduleTableColumnsForLoggedUser" @row-clicked="onRowClicked">
+                            <template slot="row-details" slot-scope="row">
+                                <AllGameBetsComponent :id="'row-id-' + row.index" :gameId="getAllScheduleDataNeededForNOTLoggedInViewer()[row.index].gameId" :gameStatus="getAllScheduleDataNeededForNOTLoggedInViewer()[row.index].status"></AllGameBetsComponent>
+                            </template>
+                        </b-table>
                     </div>
                     <div v-else>
                         <div v-if="checkIfScheduleDataAlreadyExists">
                             <b-table striped hover responsive :items="getAllScheduleDataNeededForNOTLoggedInViewer()" :fields="scheduleTableColumnsDefault"></b-table>
+                                <template slot="row-details" slot-scope="row">
+                                    <AllGameBetsComponent :id="'row-id-' + row.index" :gameId="getAllScheduleDataNeededForNOTLoggedInViewer()[row.index].gameId" :gameStatus="getAllScheduleDataNeededForNOTLoggedInViewer()[row.index].status" @row-clicked="onRowClicked"></AllGameBetsComponent>
+                                </template>
                         </div>
                         <div v-else>
                             <h2>{{ $t('schedulePage.scheduleNotReadyYet') }}</h2>
@@ -22,19 +29,8 @@
                 <div v-else>
                     <div v-if="checkIfScheduleDataAlreadyExists">
                         <b-table striped hover responsive :items="getAllScheduleDataNeededForNOTLoggedInViewer()" :fields="scheduleTableColumnsDefault"  @row-clicked="onRowClicked">
-                            <!---<template slot="actions" slot-scope="row">--->
-                                <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
-                                <!--<b-button size="sm" @click.stop="row.toggleDetails">
-                                    {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
-                                </b-button>
-                            </template>-->
                             <template slot="row-details" slot-scope="row">
-                                   <!-- Your row details' content here -->
-                                <!---<b-card>
-                                    <h1>hello</h1>
-                                </b-card>--->
-                                <AllGameBetsComponent :gameId="getAllScheduleDataNeededForNOTLoggedInViewer()[row.index].gameId"></AllGameBetsComponent>
-                                <!--<b-table striped hover sticky-header responsive :items="testItems" :fields="testFields"></b-table>-->
+                                <AllGameBetsComponent :id="'row-id-' + row.index" :gameId="getAllScheduleDataNeededForNOTLoggedInViewer()[row.index].gameId" :gameStatus="getAllScheduleDataNeededForNOTLoggedInViewer()[row.index].status"></AllGameBetsComponent>
                             </template>
                         </b-table>
                     </div>
@@ -100,7 +96,7 @@ export default {
             let arrayOfValuesForLoggedInUser = [];
 
             //
-            let testArray = [];
+            //let testArray = [];
 
             fullSchedule.forEach(function(game){
 
@@ -114,7 +110,9 @@ export default {
                             game: game.homeTeam + ' - ' + game.awayTeam,
                             result: game.gameResult.homeTeamPoints + ' : ' + game.gameResult.awayTeamPoints,
                             bet: isBetOfThisGameTaken.homeTeamPoints + ':' + isBetOfThisGameTaken.awayTeamPoints,
-                            points: isBetOfThisGameTaken.collectedPoints
+                            points: isBetOfThisGameTaken.collectedPoints,
+                            gameId: game._id,
+                            _showDetails: false
                         }
                         arrayOfValuesForLoggedInUser.push(valuesToTable);
                     }
@@ -162,7 +160,7 @@ export default {
                             _showDetails: false
                         }
                     arrayOfValuesForNOTLoggedInViewer.push(valuesToTable);
-                    console.log(arrayOfValuesForNOTLoggedInViewer)
+                    //console.log(arrayOfValuesForNOTLoggedInViewer)
                 }
                 else{
                     const valuesToTable = {
@@ -176,7 +174,6 @@ export default {
                     arrayOfValuesForNOTLoggedInViewer.push(valuesToTable);
                 }
             });
-            //console.log(arrayOfValuesForNOTLoggedInViewer)
             return arrayOfValuesForNOTLoggedInViewer;
         },
         checkIfUserBetsAlreadyExists(){
@@ -186,10 +183,22 @@ export default {
             return this.$store.getters.getFullSchedule;
         },
         onRowClicked (item, index, event) {
-            //this.$store.dispatch('getAllGameBets');
-            item._showDetails = !item._showDetails;
+            let gameBetsDetails = document.querySelector(".b-table-has-details");
+
+            if (gameBetsDetails === null) {
+                item._showDetails = !item._showDetails;
+            }
+            else {
+                if(item._showDetails === true){
+                    item._showDetails = !item._showDetails;
+                }
+                else{
+                    gameBetsDetails.click();
+                    item._showDetails = !item._showDetails;
+                }
+            }
         }
     }
-    
+  
 }
 </script>

@@ -3,17 +3,22 @@
     <!--<b-card>
         <h1>hello</h1>
     </b-card>-->
-    <p>{{gameId}}</p>
-    <div>
+    <!--<p>{{gameStatus}}</p>-->
+    <div v-if="gameStatus === 'played'">
+        <div>
         <!--<b-table striped hover sticky-header responsive :items="testItems" :fields="testFields"></b-table>-->
         <b-table striped hover sticky-header responsive :items="getAllBets()" :fields="allBetsTableColumns"></b-table>
+    </div>
+    </div>
+    <div v-else>
+        <h3>This game was not played yet so it is not possible to see user bets.</h3>
     </div>
 </div>
 </template>
 <script>
 /* eslint-disable */
 export default {
-    props: ['gameId'],
+    props: ['gameId', 'gameStatus'],
     data() {
         return {
             //gameId: this.gameId,
@@ -30,16 +35,23 @@ export default {
         //this.test(this.gameId);
         //this.getAllBets();
         this.$store.dispatch('getAllGameBets', this.gameId)
-        this.getAllBets();
+        //this.getAllBets();
     },
     methods: {
         getAllBets(){
+            /*console.log('this is game status:' + this.gameStatus)
+            if(gameStatus === "played"){
+                console.log('nice!')
+            }
+            else {
+                console.log('dupa')
+            }*/
             let arrayOfAllBets = [];
             let allGameBets = this.$store.getters.getAllGameBets.data.bets;
-            console.log('#####' + allGameBets)
+            //console.log('#####' + allGameBets[0]._id)
             allGameBets.forEach(game => {
                 const valuesToTable = {
-                    username: game._id,
+                    username: game.username,
                     bet: game.homeTeamPoints + ' - ' + game.awayTeamPoints,
                     collectedPoints: game.collectedPoints
                 }
@@ -47,10 +59,7 @@ export default {
             })
             return arrayOfAllBets;
         },
-        /*test(gameId){
-            let result = this.$store.dispatch('getTest', gameId);
-            console.log(result)
-        }*/
+        //we need to check if game was alredy played and then display only bets in case game is played
     }
 }
 </script>

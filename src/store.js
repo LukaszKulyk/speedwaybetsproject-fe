@@ -13,7 +13,7 @@ export default new Vuex.Store({
     state: {
 		//domain
 		//domain: 'https://speedway-wrold-api.herokuapp.com/',
-		domain: 'http://localhost:3002/',
+		domain: 'http://localhost:3000/',
 
 		//token expiration time
 		tokenExpirationTime: localStorage.getItem('tokenExpirationTime') || null,
@@ -524,7 +524,7 @@ export default new Vuex.Store({
 					console.log(error)
 				})
 		},
-
+		/*
 		getTest(context, gameId) {
 			//context.commit('loadingStatus', true)
 			let test = {};
@@ -545,5 +545,6 @@ export default new Vuex.Store({
 			
 				return test
 		}
+		*/
     }
 });
