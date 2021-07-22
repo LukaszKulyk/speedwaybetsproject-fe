@@ -9,7 +9,8 @@
                 <div v-if="this.$store.getters.getLastPlayerStandings.data.count > 0">
                     <h3>{{ $t('standingsPage.currentStandingsTitle') }}</h3>
                     <div>
-                        <b-table striped hover responsive :items="lastPlayerStandings()" :fields="fields"></b-table>
+                        <b-table striped hover responsive :items="lastPlayerStandings()" :fields="fields" foot-clone>
+                        </b-table>
                     </div>
                 </div>
                 <div v-else>
