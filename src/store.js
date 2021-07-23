@@ -13,7 +13,7 @@ export default new Vuex.Store({
     state: {
 		//domain
 		domain: 'https://speedway-wrold-api.herokuapp.com/',
-		//domain: 'http://localhost:3000/',
+		//domain: 'http://localhost:3001/',
 
 		//token expiration time
 		tokenExpirationTime: localStorage.getItem('tokenExpirationTime') || null,

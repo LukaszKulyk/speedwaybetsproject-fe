@@ -6,7 +6,7 @@
     </div>
     </div>
     <div v-else>
-        <h3>This game was not played yet so it is not possible to see user bets.</h3>
+        <h3>{{ $t('allGameBetsComponent.notPlayedGameWeekInfo') }}</h3>
     </div>
 </div>
 </template>

@@ -33,7 +33,9 @@ const messages = {
         standingsPage:{
             title: 'Standings',
             currentStandingsTitle: 'Current Standings',
-            ifNotStandings: 'There is no current Standings yet. Season will start soon!'
+            ifNotStandings: 'There is no current Standings yet. Season will start soon!',
+            midWeekStandingsInfo: 'Mid-week table, only points up to date. Confirmed standings after gameweek.',
+            confirmedGameWeekStandingsInfo: 'Current standings confirmed.',
         },
         resultsPage: {
             title: 'Results',
@@ -52,6 +54,9 @@ const messages = {
             loginButton: 'Login',
             registerButton: 'Register',
             sendBetButton: 'Send'
+        },
+        allGameBetsComponent: {
+            notPlayedGameWeekInfo: 'This game was not played yet so it is not possible to see user bets.'
         },
         registerPage: {
             registerSuccess: 'New User has been created succesfully! You can now login!',
@@ -89,7 +94,9 @@ const messages = {
         standingsPage:{
             title: 'Rezultaty',
             currentStandingsTitle: 'Aktualne Rezultaty',
-            ifNotStandings: 'Nie ma jeszcze żadnych rezultatów. Sezon zaczyna się wkrótce!'
+            ifNotStandings: 'Nie ma jeszcze żadnych rezultatów. Sezon zaczyna się wkrótce!',
+            midWeekStandingsInfo: 'Ranking przejściowy, tylko punkty są dodawane. Potwierdzony ranking po kolejce.',
+            confirmedGameWeekStandingsInfo: 'Potwierdzony aktualny ranking.',
         },
         resultsPage: {
             title: 'Wyniki',
@@ -108,6 +115,9 @@ const messages = {
             loginButton: 'Zaloguj',
             registerButton: 'Rejestracja',
             sendBetButton: 'Wyślij'
+        },
+        allGameBetsComponent: {
+            notPlayedGameWeekInfo: 'Ten mecz nie został jeszcze rozegrany więc nie można zobaczyć typów innych graczy.'
         },
         registerPage: {
             registerSuccess: 'Nowy użytkownik założony pomyślnie! Teraz możesz się zalogować!',
@@ -145,7 +155,9 @@ const messages = {
         standingsPage:{
             title: 'Tабела',
             currentStandingsTitle: 'Актуална Tабела',
-            ifNotStandings: 'Іщи нe є жаднoй табелы. Сeзoн зачинат ся нeдoлгo!'
+            ifNotStandings: 'Іщи нe є жаднoй табелы. Сeзон зачинат ся нeдoлгo!',
+            midWeekStandingsInfo: 'Tабела лайв, лем пункти сут додавани. Потверджена табела по колейци.',
+            confirmedGameWeekStandingsInfo: 'Потвeрджeна актуална табела',
         },
         resultsPage: {
             title: 'Выніки',
@@ -164,6 +176,9 @@ const messages = {
             loginButton: 'Лоґін',
             registerButton: 'Рейстрация',
             sendBetButton: 'Пуст'
+        },
+        allGameBetsComponent: {
+            notPlayedGameWeekInfo: 'Меч іщи нe розограны. Нe можна справдити типіл інчих грачи.'
         },
         registerPage: {
             registerSuccess: 'Новий грач заложений! Тепер можеш ся залoгувати!',
