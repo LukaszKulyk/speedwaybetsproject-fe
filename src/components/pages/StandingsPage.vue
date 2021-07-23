@@ -104,9 +104,11 @@ export default {
 
 #mid-week-table {
     background-color: orange;
+    margin-bottom: 10px;
 }
 
 #confirmed-week-table {
     background-color:rgb(135, 214, 16);
+    margin-bottom: 10px;
 }
 </style>
