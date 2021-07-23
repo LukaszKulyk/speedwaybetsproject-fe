@@ -9,8 +9,14 @@
                 <div v-if="this.$store.getters.getLastPlayerStandings.data.count > 0">
                     <h3>{{ $t('standingsPage.currentStandingsTitle') }}</h3>
                     <div>
-                        <b-table striped hover responsive :items="lastPlayerStandings()" :fields="fields" foot-clone>
+                        <b-table striped hover responsive :items="lastPlayerStandings()" :fields="fields">
                         </b-table>
+                        <div v-if="isGameWeekConfirmed() === false">
+                            <p id="mid-week-table">{{ $t('standingsPage.midWeekStandingsInfo') }}</p>
+                        </div>
+                        <div v-if="isGameWeekConfirmed() === true">
+                            <p id="confirmed-week-table">{{ $t('standingsPage.confirmedGameWeekStandingsInfo') }}</p>
+                        </div>
                     </div>
                 </div>
                 <div v-else>
@@ -62,6 +68,16 @@ export default {
             else if(firstChar === '-'){
                 return 'text-red';
             }
+        },
+        isGameWeekConfirmed(){
+            let isGameWeekConfirmed = this.$store.getters.getLastPlayerStandings.data.playerResultsTable[0].isGameWeekConfirmed
+
+            if(isGameWeekConfirmed === true){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
     }
 }
@@ -81,5 +97,16 @@ export default {
 .text-gray {
     color: gray;
     font-weight: bold;
+}
+#is-table-confirmed {
+    background-color: orange;
+}
+
+#mid-week-table {
+    background-color: orange;
+}
+
+#confirmed-week-table {
+    background-color:rgb(135, 214, 16);
 }
 </style>

@@ -12,8 +12,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
 		//domain
-		//domain: 'https://speedway-wrold-api.herokuapp.com/',
-		domain: 'http://localhost:3001/',
+		domain: 'https://speedway-wrold-api.herokuapp.com/',
+		//domain: 'http://localhost:3001/',
 
 		//token expiration time
 		tokenExpirationTime: localStorage.getItem('tokenExpirationTime') || null,
@@ -35,7 +35,7 @@ export default new Vuex.Store({
         fullSchedule: [],
         lastGameWeekPlayed: [],
         lastGameWeekResults: [],
-		nextGameWeekToBeBet: 14,
+		nextGameWeekToBeBet: 15,
 		nextGameWeekGames: [],
 		allPlayedGamesResults: [],
 
