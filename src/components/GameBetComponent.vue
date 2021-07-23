@@ -1,7 +1,7 @@
 <template>
     <b-form inline @submit.prevent="onSend" @reset="onReset">
         <div>
-            <label><strong>{{ game.homeTeam }} - {{ game.awayTeam }}</strong></label>
+            <label><strong>{{ game.homeTeam }} - {{ game.awayTeam }}</strong>({{ getDate() }})</label>
             <b-form-input size="sm" type="number" min="15" max="75" v-model="bet.homeTeamPoints" required :disabled="game.gameStatus === 'inprogress'"></b-form-input>
             <b-form-input size="sm" type="number" min="15" max="75" v-model="bet.awayTeamPoints" required :disabled="game.gameStatus === 'inprogress'"></b-form-input>
             <b-button type="submit" :disabled="betHasBeenJustSend === true">{{ $t('betsPage.sendBetButton') }}</b-button>
@@ -32,6 +32,11 @@ export default {
         this.checkIfGameBetWasAlreadyMadeByUser()
     },
     methods: {
+        getDate(){
+            let d = new Date(this.game.scheduledGameDate)
+            let scheduledGameDateStringFormat = (d.getDate()<10?'0':'') + d.getDate()  + "-" + (d.getMonth()<10?'0':'') + (d.getMonth()+1) + "-" + d.getFullYear() + " " + (d.getHours()<10?'0':'') + d.getHours() + ":" + (d.getMinutes()<10?'0':'') + d.getMinutes();
+            return scheduledGameDateStringFormat
+        },
 
         checkIfGameBetWasAlreadyMadeByUser(){
             let allBets = this.$store.getters.getAllUserBetsForCurrentGameWeek.data.bets;
