@@ -21,7 +21,7 @@ export default {
                 hasBeenAlreadyBet: false,
                 betId: '',
             },
-            betHasBeenJustSend: false,
+            betHasBeenJustSend: false
         }
     },
     
