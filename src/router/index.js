@@ -6,6 +6,7 @@ import StandingsPage from '@/components/pages/StandingsPage'
 import ResultsPage from '@/components/pages/ResultsPage'
 import SchedulePage from '@/components/pages/SchedulePage'
 import BetsPage from '@/components/pages/BetsPage'
+import ContactPage from '@/components/pages/ContactPage'
 import RegisterUserComponent from '@/components/RegisterUserComponent'
 import LoginUserComponent from '@/components/LoginUserComponent'
 import LogoutUserComponent from '@/components/LogoutUserComponent'
@@ -42,6 +43,11 @@ const router = new Router({
       path: '/bets',
       name: 'BetsPage',
       component: BetsPage
+    },
+    {
+      path: '/contact',
+      name: 'ContactPage',
+      component: ContactPage
     },
     {
       path: '/register',
