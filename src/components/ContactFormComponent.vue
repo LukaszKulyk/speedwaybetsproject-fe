@@ -1,5 +1,5 @@
 <template>
-    <b-form @submit="sendEmail" @reset="onReset" v-if="show">
+    <b-form ref="form" @submit.prevent="sendEmail" @reset="onReset" v-if="show">
             <b-form-group
                 id="input-group-1"
                 label="Email address:"
@@ -8,7 +8,8 @@
             >
                 <b-form-input
                 id="input-1"
-                v-model="form.email"
+                v-model="email"
+                name="reply_to_email"
                 type="email"
                 placeholder="Enter email"
                 required
@@ -18,7 +19,8 @@
             <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
                 <b-form-input
                 id="input-2"
-                v-model="form.name"
+                v-model="name"
+                name="from_name"
                 placeholder="Enter name"
                 required
                 ></b-form-input>
@@ -27,7 +29,8 @@
             <b-form-group id="input-group-3" label="Type:" label-for="input-3">
                 <b-form-select
                 id="input-3"
-                v-model="form.type"
+                v-model="type"
+                name="type"
                 :options="types"
                 required
                 description="What is the type of your message?"
@@ -63,7 +66,8 @@
                 rows='5'
                 max-rows='10'
                 id="input-4"
-                v-model="form.message"
+                v-model="message"
+                name="message"
                 placeholder="What would like to tell us?"
                 size="lg"
                 required
@@ -82,13 +86,18 @@ emailjs.init('user_4iwTimrS4zS6UOR90kgp3')
 export default {
     data() {
       return {
-        form: {
+        /*form: {
           email: '',
           name: '',
           type: null,
           //checked: [],
           message: ''
-        },
+        },*/
+        email: '',
+        name: '',
+        type: null,
+        //checked: [],
+        message: '',
         types: [{ text: 'Select One', value: null }, 'Feedback', 'Question', 'Complain', 'Other'],
         show: true
       }
@@ -101,10 +110,10 @@ export default {
       onReset(event) {
         event.preventDefault()
         // Reset our form values
-        this.form.email = ''
-        this.form.name = ''
-        this.form.type = null
-        this.form.message = ''
+        this.email = ''
+        this.name = ''
+        this.type = null
+        this.message = ''
         //this.form.checked = []
         // Trick to reset/clear native browser form validation state
         this.show = false
@@ -112,17 +121,20 @@ export default {
           this.show = true
         })
       },
-      sendEmail(e) {
+      sendEmail(event) {
           //console.log(this.form)
-          const formToBeSend = this.form
-          console.log(formToBeSend)
+          //const formToBeSend = this.email
+          //console.log(formToBeSend)
+          //console.log(this.email)
+          console.log(this.$refs.form)
           try {
-              emailjs.sendForm('service_rke8a2t', 'template_hpn52ev', e.target, 'user_4iwTimrS4zS6UOR90kgp3', {
+              /*emailjs.sendForm('service_rke8a2t', 'template_hpn52ev', e.target, 'user_4iwTimrS4zS6UOR90kgp3', {
                   reply_to_email: formToBeSend.email,
                   from_name: formToBeSend.name,
                   type: formToBeSend.type,
                   message: formToBeSend.message
-              })
+              })*/
+              emailjs.sendForm('service_rke8a2t', 'template_hpn52ev', this.$refs.form, 'user_4iwTimrS4zS6UOR90kgp3')
           } catch(error) {
               console.log({error})
           }
