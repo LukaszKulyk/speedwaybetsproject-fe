@@ -83,6 +83,8 @@
 import emailjs from 'emailjs-com'
 emailjs.init('user_4iwTimrS4zS6UOR90kgp3')
 
+const axios = require('axios')
+
 export default {
     data() {
       return {
@@ -121,19 +123,13 @@ export default {
           this.show = true
         })
       },
-      sendEmail(event) {
+      /*sendEmail(event) {
           //console.log(this.form)
           //const formToBeSend = this.email
           //console.log(formToBeSend)
           //console.log(this.email)
           console.log(this.$refs.form)
           try {
-              /*emailjs.sendForm('service_rke8a2t', 'template_hpn52ev', e.target, 'user_4iwTimrS4zS6UOR90kgp3', {
-                  reply_to_email: formToBeSend.email,
-                  from_name: formToBeSend.name,
-                  type: formToBeSend.type,
-                  message: formToBeSend.message
-              })*/
               emailjs.sendForm('service_rke8a2t', 'template_hpn52ev', this.$refs.form, 'user_4iwTimrS4zS6UOR90kgp3')
           } catch(error) {
               console.log({error})
@@ -143,6 +139,29 @@ export default {
           this.form.name = ''
           this.form.type = null
           this.form.message = ''
+      },*/
+      sendEmail(event) {
+          const slackToken = 'xoxb-1058227589059-2505916952631-14RF2jkROA89JhkpFrXg0fBY'
+
+          run().catch(err => console.log(err));
+
+          async function run() {
+            const url = 'https://slack.com/api/chat.postMessage/';
+            const res = await axios.post(url, {
+              channel: '#speedway-bets',
+              text: 'Hello, World!'
+            }, 
+            { headers: 
+              { 
+                'Authorization': `Bearer ${slackToken}`,
+                'Access-Control-Allow-Origin': '*',
+                "Access-Control-Allow-Credentials": "true",
+                "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
+                "Access-Control-Allow-Headers":  "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+              }});
+            
+            console.log('Done', res.data)
+          }
       }
     }
 }
