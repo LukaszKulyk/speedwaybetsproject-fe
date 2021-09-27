@@ -7,7 +7,12 @@
             </div>
             <div v-else>
                 <div v-if="this.$store.getters.getLastPlayerStandings.data.count > 0">
-                    <h3>{{ $t('standingsPage.currentStandingsTitle') }}</h3>
+                    <h5>{{ $t('standingsPage.endSeasonText') }}</h5>
+                    <h3>{{ $t('standingsPage.seasonWinnersTableTitle') }}</h3>
+                    <div>
+                        <b-table stripped hover responsive :items="seasonWinnersData" :fields="seasonWinnersFields"></b-table>
+                    </div>
+                    <h3>{{ $t('standingsPage.endSeasonStandingsTitle') }}</h3>
                     <div>
                         <b-table striped hover responsive :items="lastPlayerStandings()" :fields="fields">
                         </b-table>
@@ -42,7 +47,25 @@ export default {
                 pol: 'Aktualna Tabela',
                 lem: 'Aktualny wyniky'
             },
-            fields: [{key: 'pos'}, {key: 'username'}, {key: 'points'}, {key: '+/-', tdClass: 'setPosTdClass'}]
+            fields: [{key: 'pos'}, {key: 'username'}, {key: 'points'}, {key: '+/-', tdClass: 'setPosTdClass'}],
+            seasonWinnersFields: ['Position', 'Username', 'Award'],
+            seasonWinnersData: [
+                {
+                    Position: '🥇',
+                    Username: 'Bodziu_F.',
+                    Award: 'Two Speedway Tickets'
+                },
+                {
+                    Position: '🥈',
+                    Username: 'mastyło',
+                    Award: 'SpeedwayBusines board game'
+                },
+                {
+                    Position: '🥉',
+                    Username: 'Karolcia',
+                    Award: 'MCS Speedway Card Game'
+                }
+            ]
         }
     },
     created(){

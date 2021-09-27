@@ -32,7 +32,10 @@ const messages = {
         },
         standingsPage:{
             title: 'Standings',
+            endSeasonText: 'Season 2021 has ended. Thank you all for playing with us! We hope you have spent really good time and you will join us next year as well. Thank you all one more time and see you soon!',
+            seasonWinnersTableTitle: 'Season 2021 winners:',
             currentStandingsTitle: 'Current Standings',
+            endSeasonStandingsTitle: 'Full 2021 Season Standings:',
             ifNotStandings: 'There is no current Standings yet. Season will start soon!',
             midWeekStandingsInfo: 'Mid-week table, only points up to date. Confirmed standings after gameweek.',
             confirmedGameWeekStandingsInfo: 'Current standings confirmed.',
@@ -93,6 +96,9 @@ const messages = {
         },
         standingsPage:{
             title: 'Rezultaty',
+            endSeasonText: 'Sezon 2021 się zakończył. Dziękujemy wszystkim za udział w naszej zabawie. Mamy nadzieję, że dobrze się bawiliście i dołączycie do nas ponownie za rok! Dziękujemy jeszcze raz i do zobaczenia wkrótce!',
+            seasonWinnersTableTitle: 'Laureaci Sezonu 2021:',
+            endSeasonStandingsTitle: 'Pełna tabela 2021:',
             currentStandingsTitle: 'Aktualne Rezultaty',
             ifNotStandings: 'Nie ma jeszcze żadnych rezultatów. Sezon zaczyna się wkrótce!',
             midWeekStandingsInfo: 'Ranking przejściowy, tylko punkty są dodawane. Potwierdzony ranking po kolejce.',
@@ -154,6 +160,9 @@ const messages = {
         },
         standingsPage:{
             title: 'Tабела',
+            endSeasonText: "Закінчили'смe сeзoн 2021. Барс вшытким дякуємe за участ в нашoй забаві. Мамe надію жe стe ся добры бавили и возмeтe участ тиж за рік. Іщи раз дякуємe и запрашамe нeдoлгo!",
+            seasonWinnersTableTitle: 'Выграни Сeзону 2021:',
+            endSeasonStandingsTitle: 'Польна Tабела выникиль:',
             currentStandingsTitle: 'Актуална Tабела',
             ifNotStandings: 'Іщи нe є жаднoй табелы. Сeзон зачинат ся нeдoлгo!',
             midWeekStandingsInfo: 'Tабела лайв, лем пункти сут додавани. Потверджена табела по колейци.',
