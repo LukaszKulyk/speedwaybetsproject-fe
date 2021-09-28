@@ -12,6 +12,7 @@
         <b-nav-item to="/results">🏁 {{ $t('navBarComponent.results') }}</b-nav-item>
         <b-nav-item to="/schedule">📅 {{ $t('navBarComponent.schedule') }}</b-nav-item>
         <b-nav-item to="/bets">🎲 {{ $t('navBarComponent.bets') }}</b-nav-item>
+        <b-nav-item to="/contact">📖 Contact</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
