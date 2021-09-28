@@ -1,4 +1,21 @@
 <template>
+<div>
+    <b-alert
+      :show="alert.dismissCountDown"
+      dismissible
+      variant="success"
+      @dismissed="alert.dismissCountDown=0"
+      @dismiss-count-down="countDownChanged"
+    >
+      <h5>Your message has been sent!</h5>
+      <p>This alert will dismiss after {{ alert.dismissCountDown }} seconds...</p>
+      <b-progress
+        variant="success"
+        :max="alert.dismissSecs"
+        :value="alert.dismissCountDown"
+        height="4px"
+      ></b-progress>
+    </b-alert>
     <b-form ref="form" @submit.prevent="sendEmail" @reset="onReset" v-if="show">
             <b-form-group
                 id="input-group-1"
@@ -37,30 +54,6 @@
                 ></b-form-select>
             </b-form-group>
 
-            <!---<b-form-group id="input-group-4" label="Message:" label-for="input-4">
-                <b-form-input
-                id="input-2"
-                v-model="form.message"
-                placeholder="Enter the message"
-                size="lg"
-                word-break
-                required
-                ></b-form-input>
-            </b-form-group>--->
-
-            <!---<b-form-group id="input-group-4" label="Message:" label-for="input-4">
-                <b-form-textarea
-                type='text'
-                style='width:100%'
-                rows='5'
-                id="input-4"
-                v-model="form.message"
-                placeholder="Enter the message"
-                size="lg"
-                required
-                ></textarea>
-            </b-form-group>--->
-
             <b-form-group id="input-group-4" label="Message:" label-for="input-4">
                 <b-form-textarea
                 rows='5'
@@ -77,6 +70,7 @@
             <b-button type="submit" variant="primary">Submit</b-button>
             <b-button type="reset" variant="danger">Reset</b-button>
         </b-form>
+</div>
 </template>
 <script>
 /* eslint-disable */
@@ -88,23 +82,23 @@ const axios = require('axios')
 export default {
     data() {
       return {
-        /*form: {
-          email: '',
-          name: '',
-          type: null,
-          //checked: [],
-          message: ''
-        },*/
+        alert: {
+          dismissSecs: 5,
+          dismissCountDown: 0,
+          showDismissibleAlert: false
+        },
         email: '',
         name: '',
         type: null,
-        //checked: [],
         message: '',
         types: [{ text: 'Select One', value: null }, 'Feedback', 'Question', 'Complain', 'Other'],
         show: true
       }
     },
     methods: {
+      countDownChanged(dismissCountDown) {
+        this.alert.dismissCountDown = dismissCountDown
+      },
       onSubmit(event) {
         event.preventDefault()
         alert(JSON.stringify(this.form))
@@ -116,52 +110,26 @@ export default {
         this.name = ''
         this.type = null
         this.message = ''
-        //this.form.checked = []
         // Trick to reset/clear native browser form validation state
         this.show = false
         this.$nextTick(() => {
           this.show = true
         })
       },
-      /*sendEmail(event) {
-          //console.log(this.form)
-          //const formToBeSend = this.email
-          //console.log(formToBeSend)
-          //console.log(this.email)
-          console.log(this.$refs.form)
+      sendEmail(event) {
           try {
               emailjs.sendForm('service_rke8a2t', 'template_hpn52ev', this.$refs.form, 'user_4iwTimrS4zS6UOR90kgp3')
+              .then(() => {
+                this.alert.dismissCountDown = this.alert.dismissSecs
+              });
           } catch(error) {
               console.log({error})
           }
           //Reset form field
-          this.form.email = ''
-          this.form.name = ''
-          this.form.type = null
-          this.form.message = ''
-      },*/
-      sendEmail(event) {
-          const slackToken = 'xoxb-1058227589059-2505916952631-14RF2jkROA89JhkpFrXg0fBY'
-
-          run().catch(err => console.log(err));
-
-          async function run() {
-            const url = 'https://slack.com/api/chat.postMessage/';
-            const res = await axios.post(url, {
-              channel: '#speedway-bets',
-              text: 'Hello, World!'
-            }, 
-            { headers: 
-              { 
-                'Authorization': `Bearer ${slackToken}`,
-                'Access-Control-Allow-Origin': '*',
-                "Access-Control-Allow-Credentials": "true",
-                "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
-                "Access-Control-Allow-Headers":  "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-              }});
-            
-            console.log('Done', res.data)
-          }
+          this.email = ''
+          this.name = ''
+          this.type = null
+          this.message = ''
       }
     }
 }
