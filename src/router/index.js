@@ -10,6 +10,7 @@ import ContactPage from '@/components/pages/ContactPage'
 import RegisterUserComponent from '@/components/RegisterUserComponent'
 import LoginUserComponent from '@/components/LoginUserComponent'
 import LogoutUserComponent from '@/components/LogoutUserComponent'
+import NotFound from '@/components/NotFound'
 
 import dateHelpers from '../helpers/date';
 
@@ -19,6 +20,7 @@ Vue.use(Router)
 
 const router = new Router({
   mode: 'history',
+  //history: Router.createWebHistory('http://localhost:8082'),
   routes: [
     {
       path: '/',
@@ -64,7 +66,8 @@ const router = new Router({
       path: '/logout',
       name: 'LogoutUserComponent',
       component: LogoutUserComponent
-    }
+    },
+    { path: "*", component: NotFound }
   ]
 })
 
