@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <div v-if="this.$store.getters.getCurrentAuthStatus === 'success'">
+  <div data-test-id="register-new-user">
+    <div v-if="this.$store.getters.getCurrentAuthStatus === 'success'" data-test-id="register-success">
         <h3>{{ $t('registerPage.registerSuccess') }}</h3>
     </div>
-    <div v-if="this.$store.getters.getCurrentAuthStatus === 'error'">
+    <div v-if="this.$store.getters.getCurrentAuthStatus === 'error'" data-test-id="register-error">
         <h3>{{ $t('registerPage.registerError') }}</h3>
     </div>
-    <b-form v-if="this.$store.getters.loggedIn === false" action="#" @submit.prevent="register">
+    <b-form v-if="this.$store.getters.loggedIn === false" action="#" @submit.prevent="register" data-test-id="register-form">
         <b-form-group id="email-input-group" label="Email Adress" label-for="email-input" description="Please write an email.">
             <b-form-input id="email-input" v-model="user.email" type="email" required placeholder="email"></b-form-input>
         </b-form-group>

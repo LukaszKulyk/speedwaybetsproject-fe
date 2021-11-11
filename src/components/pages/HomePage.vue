@@ -1,15 +1,15 @@
 <template>
     <b-container>
-        <div>
+        <div data-test-id="home-page">
             <h1>{{ $t('homePage.title') }}</h1>
             <div v-if="loadingStatus" class="loading-div">
                 <vue-spinner />
             </div>
-            <div v-else>
+            <div v-else data-test-id="project-description-info">
                 <p><strong>{{ $t('homePage.infoAboutProject') }}</strong></p>
                 <p><strong>{{ $t('homePage.comeandPlayWithUsInfo') }}</strong></p>
                 <p><strong>{{ $t('homePage.awards.awardsInfo') }}</strong></p>
-                <div>
+                <div data-test-id="awards-info-table">
                     <b-table striped hover responsive :items="awardsTableValues" :fields="awardsTableColumns"></b-table>
                 </div>
                 <!--<b-list-group>
@@ -18,7 +18,7 @@
                     <b-list-group-item><strong>3. {{translations.awards.award3.pol}}</strong></b-list-group-item>
                 </b-list-group>-->
                 <p><strong>{{ $t('homePage.collectPointsInfo') }}</strong></p>
-                <div>
+                <div data-test-id="points-collection-info-table">
                     <b-table striped hover responsive :items="pointsTableValues" :fields="pointsTableColumns"></b-table>
                 </div>
                 <p><strong>{{ $t('homePage.drawInformation') }}</strong></p>

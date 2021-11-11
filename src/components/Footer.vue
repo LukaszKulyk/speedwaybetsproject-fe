@@ -1,5 +1,5 @@
 <template>
-    <div class="footer row justify-content-md-center">
+    <div class="footer row justify-content-md-center" data-test-id="footer">
         <div class="row justify-content-end">
             <div class="col-sm-3">
                 <h4><strong>QuickIT Production</strong></h4>

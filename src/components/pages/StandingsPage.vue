@@ -1,12 +1,12 @@
 <template>
-    <div>
+    <div data-test-id="standings-page">
         <b-container>
             <h1>{{ $t('standingsPage.title') }}</h1>
             <div v-if="loadingStatus" class="loading-div">
                 <vue-spinner />
             </div>
             <div v-else>
-                <div v-if="this.$store.getters.getLastPlayerStandings.data.count > 0">
+                <div v-if="this.$store.getters.getLastPlayerStandings.data.count > 0" data-test-id="standings-available">
                     <h5>{{ $t('standingsPage.endSeasonText') }}</h5>
                     <h3>{{ $t('standingsPage.seasonWinnersTableTitle') }}</h3>
                     <div>
@@ -16,15 +16,15 @@
                     <div>
                         <b-table striped hover responsive :items="lastPlayerStandings()" :fields="fields">
                         </b-table>
-                        <div v-if="isGameWeekConfirmed() === false">
+                        <div v-if="isGameWeekConfirmed() === false" data-test-id="mid-week-table">
                             <p id="mid-week-table">{{ $t('standingsPage.midWeekStandingsInfo') }}</p>
                         </div>
-                        <div v-if="isGameWeekConfirmed() === true">
+                        <div v-if="isGameWeekConfirmed() === true" data-test-id="confirmed-table">
                             <p id="confirmed-week-table">{{ $t('standingsPage.confirmedGameWeekStandingsInfo') }}</p>
                         </div>
                     </div>
                 </div>
-                <div v-else>
+                <div v-else data-test-id="no-standings-available-info">
                     <h2>{{ $t('standingsPage.ifNotStandings') }}</h2>
                 </div>
             </div>

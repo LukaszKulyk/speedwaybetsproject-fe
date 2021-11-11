@@ -1,6 +1,7 @@
 <template>
 <div>
     <b-alert
+      data-test-id="message-has-been-sent-alert"
       :show="alert.dismissCountDown"
       dismissible
       variant="success"

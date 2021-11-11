@@ -1,6 +1,6 @@
 <template>
     <b-form inline @submit.prevent="onSend" @reset="onReset">
-        <div>
+        <div data-test-id="game-bet-component-form">
             <label><strong>{{ game.homeTeam }} - {{ game.awayTeam }}</strong>({{ getDate() }})</label>
             <b-form-input size="sm" type="number" min="15" max="75" v-model="bet.homeTeamPoints" required :disabled="game.gameStatus === 'inprogress'"></b-form-input>
             <b-form-input size="sm" type="number" min="15" max="75" v-model="bet.awayTeamPoints" required :disabled="game.gameStatus === 'inprogress'"></b-form-input>

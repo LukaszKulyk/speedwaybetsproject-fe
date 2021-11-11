@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div data-test-id="bets-page">
         <b-container>
             <h1>{{ $t('betsPage.title') }}</h1>
             <div v-if="loadingStatus" class="loading-div">
@@ -16,7 +16,7 @@
                         <h2>{{ $t('betsPage.noGameWeekScheduledYet') }}</h2>
                     </div>
                 </div>
-                <div v-else>
+                <div v-else data-test-id="not-logged-bets-page">
                     <h2>{{ $t('betsPage.userNotLoggedIn') }}</h2>
                     <router-link to="/login">{{ $t('betsPage.loginButton') }}</router-link>
                     <router-link to="/register">{{ $t('betsPage.registerButton') }}</router-link>

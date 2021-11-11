@@ -1,12 +1,12 @@
 <template>
     <div>
-  <b-navbar toggleable="lg" type="dark" variant="dark">
+  <b-navbar toggleable="lg" type="dark" variant="dark" data-test-id="nav-bar-component">
     <b-navbar-brand href="#">SpeedwayWorld</b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
-      <b-navbar-nav>
+      <b-navbar-nav data-test-id="nav-bar-subpages">
         <b-nav-item to="/">📚 {{ $t('navBarComponent.home') }}</b-nav-item>
         <b-nav-item to="/standings">🏆 {{ $t('navBarComponent.standings') }}</b-nav-item>
         <b-nav-item to="/results">🏁 {{ $t('navBarComponent.results') }}</b-nav-item>
@@ -18,7 +18,7 @@
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
 
-          <div class="locale-switcher">
+          <div class="locale-switcher" data-test-id="language-picker">
               <select v-model="$i18n.locale">
                 <option value="en">🇬🇧 English</option>
                 <option value="pl">🇵🇱 Polski</option>
@@ -26,7 +26,7 @@
               </select>
           </div>
 
-        <b-nav-item-dropdown right>
+        <b-nav-item-dropdown right data-test-id="user-info">
           <template #button-content>
             <em v-if="loggedIn()">🧑‍💻 {{getUsername()}}</em>
             <em v-else>👤 User</em>

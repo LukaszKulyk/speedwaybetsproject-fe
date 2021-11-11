@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div data-test-id="login-page">
     <div v-if="this.$store.getters.getCurrentAuthStatus === 'error'">
         <h3>{{ $t('loginPage.loginError') }}</h3>
     </div>

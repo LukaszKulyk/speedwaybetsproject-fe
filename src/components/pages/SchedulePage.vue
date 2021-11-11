@@ -1,40 +1,40 @@
 <template>
-    <div>
+    <div data-test-id="schedule-page">
         <b-container>
             <h1>{{ $t('schedulePage.title') }}</h1>
             <div v-if="loadingStatus" class="loading-div">
                 <vue-spinner />
             </div>
             <div v-else>
-                <div v-if="this.$store.getters.loggedIn">
-                    <div v-if="checkIfUserBetsAlreadyExists">
+                <div v-if="this.$store.getters.loggedIn" data-test-id="logged-user-schedule">
+                    <div v-if="checkIfUserBetsAlreadyExists" data-test-id="logged-user-schedule-games">
                         <b-table striped hover responsive :items="getAllNeededValuesFromUserBets()" :fields="scheduleTableColumnsForLoggedUser" @row-clicked="onRowClicked">
                             <template slot="row-details" slot-scope="row">
                                 <AllGameBetsComponent :id="'row-id-' + row.index" :gameId="getAllScheduleDataNeededForNOTLoggedInViewer()[row.index].gameId" :gameStatus="getAllScheduleDataNeededForNOTLoggedInViewer()[row.index].status"></AllGameBetsComponent>
                             </template>
                         </b-table>
                     </div>
-                    <div v-else>
+                    <div v-else data-test-id="logged-user-no-bets">
                         <div v-if="checkIfScheduleDataAlreadyExists">
                             <b-table striped hover responsive :items="getAllScheduleDataNeededForNOTLoggedInViewer()" :fields="scheduleTableColumnsDefault"></b-table>
                                 <template slot="row-details" slot-scope="row">
                                     <AllGameBetsComponent :id="'row-id-' + row.index" :gameId="getAllScheduleDataNeededForNOTLoggedInViewer()[row.index].gameId" :gameStatus="getAllScheduleDataNeededForNOTLoggedInViewer()[row.index].status" @row-clicked="onRowClicked"></AllGameBetsComponent>
                                 </template>
                         </div>
-                        <div v-else>
+                        <div v-else data-test-id="logged-user-schedule-not-ready-yet-info">
                             <h2>{{ $t('schedulePage.scheduleNotReadyYet') }}</h2>
                         </div>
                     </div>
                 </div>
-                <div v-else>
-                    <div v-if="checkIfScheduleDataAlreadyExists">
+                <div v-else data-test-id="not-logged-user-schedule">
+                    <div v-if="checkIfScheduleDataAlreadyExists" data-test-id="not-logged-user-schedule">
                         <b-table striped hover responsive :items="getAllScheduleDataNeededForNOTLoggedInViewer()" :fields="scheduleTableColumnsDefault"  @row-clicked="onRowClicked">
                             <template slot="row-details" slot-scope="row">
                                 <AllGameBetsComponent :id="'row-id-' + row.index" :gameId="getAllScheduleDataNeededForNOTLoggedInViewer()[row.index].gameId" :gameStatus="getAllScheduleDataNeededForNOTLoggedInViewer()[row.index].status"></AllGameBetsComponent>
                             </template>
                         </b-table>
                     </div>
-                    <div v-else>
+                    <div v-else data-test-id="not-logged-user-schedule-not-ready-info">
                         <h2>{{ $t('schedulePage.scheduleNotReadyYet') }}</h2>
                     </div>
                 </div>

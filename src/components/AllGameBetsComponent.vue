@@ -1,11 +1,11 @@
 <template>
-<div>
-    <div v-if="gameStatus === 'played'">
+<div  data-test-id="all-game-bets-component">
+    <div v-if="gameStatus === 'played'" data-test-id="all-game-bets">
         <div>
         <b-table striped hover sticky-header responsive :items="getAllBets()" :fields="allBetsTableColumns"></b-table>
     </div>
     </div>
-    <div v-else>
+    <div v-else data-test-id="not-played-game-info">
         <h3>{{ $t('allGameBetsComponent.notPlayedGameWeekInfo') }}</h3>
     </div>
 </div>

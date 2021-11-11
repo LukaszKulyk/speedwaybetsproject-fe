@@ -1,8 +1,10 @@
 <template>
-    <b-container>
-        <h1>Contact</h1>
-        <ContactFormComponent></ContactFormComponent>
-    </b-container>
+  <div data-test-id="contact-page">
+      <b-container>
+          <h1>Contact</h1>
+          <ContactFormComponent></ContactFormComponent>
+      </b-container>
+  </div>
 </template>
 <script>
 /* eslint-disable */

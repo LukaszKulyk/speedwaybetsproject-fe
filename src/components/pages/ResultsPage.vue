@@ -1,21 +1,21 @@
 <template>
-    <div>
+    <div data-test-id="results-page">
         <b-container>
             <h1>{{ $t('resultsPage.title') }}</h1>
             <div v-if="loadingStatus" class="loading-div">
                 <vue-spinner />
             </div>
-            <div v-else>
+            <div v-else data-test-id="reults-info">
                 <div v-if="this.$store.getters.getLastStandingsTable">
                     <h2>{{ $t('resultsPage.tableTitle') }}</h2>
-                    <div>
+                    <div data-test-id="results-table">
                         <b-table striped hover responsive :items="lastStandingsTable()" :fields="standingsTableColumns"></b-table>
                     </div>
                 </div>
-                <div v-else>
+                <div v-else data-test-id="no-results-yet-info">
                     <h2>{{ $t('resultsPage.ifNoResultsYet') }}</h2>
                 </div>
-                <div v-if="this.$store.getters.getAllPlayedGamesResults">
+                <div v-if="this.$store.getters.getAllPlayedGamesResults" data-test-id="all-played-games">
                     <h3><strong>{{ $t('resultsPage.playedGames') }}</strong></h3>
                     <div v-for="(game, index) in allPlayedGamesResults()" :key="index">
                         <div>
