@@ -13,6 +13,7 @@
         <b-nav-item to="/schedule">📅 {{ $t('navBarComponent.schedule') }}</b-nav-item>
         <b-nav-item to="/bets">🎲 {{ $t('navBarComponent.bets') }}</b-nav-item>
         <b-nav-item to="/contact">📖 Contact</b-nav-item>
+        <b-nav-item v-if="this.$store.getters.getIsAdmin === true" to="/admin">📖 Admin</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
@@ -35,6 +36,7 @@
           <b-dropdown-item v-if="!loggedIn()" to="/login">✏️ {{ $t('navBarComponent.login') }}</b-dropdown-item>
           <b-dropdown-item v-if="!loggedIn()" to="/register">🔐 {{ $t('navBarComponent.register') }}</b-dropdown-item>
           <b-dropdown-item v-if="loggedIn()" to="/bets">🎲 {{ $t('navBarComponent.makeABet') }}</b-dropdown-item>
+          <b-dropdown-item v-if="this.$store.getters.getIsAdmin === true" to="/admin">🎲 Admin</b-dropdown-item>
           <b-dropdown-item v-if="loggedIn()" to="/logout">🔒 {{ $t('navBarComponent.logout') }}</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
@@ -60,6 +62,9 @@ export default {
   methods: {
     loggedIn () {
       return this.$store.getters.loggedIn
+    },
+    isAdmin () {
+      return this.$store.getters.getIsAdmin
     },
     getUsername () {
       //return this.$store.getters.getUsername
