@@ -11,6 +11,7 @@ import RegisterUserComponent from '@/components/RegisterUserComponent'
 import LoginUserComponent from '@/components/LoginUserComponent'
 import LogoutUserComponent from '@/components/LogoutUserComponent'
 import NotFound from '@/components/NotFound'
+import AdminPage from '@/components/admin/AdminPage'
 
 import dateHelpers from '../helpers/date';
 
@@ -66,6 +67,12 @@ const router = new Router({
       path: '/logout',
       name: 'LogoutUserComponent',
       component: LogoutUserComponent
+    },
+    //admin routes
+    {
+      path: '/admin',
+      name: 'AdminRoute',
+      component: AdminPage
     },
     { path: "*", component: NotFound }
   ]

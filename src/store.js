@@ -13,7 +13,7 @@ export default new Vuex.Store({
     state: {
 		//domain
 		domain: 'https://speedway-wrold-api.herokuapp.com/',
-		//domain: 'http://localhost:3001/',
+		//domain: 'http://localhost:3000/',
 
 		//token expiration time
 		tokenExpirationTime: localStorage.getItem('tokenExpirationTime') || null,
@@ -35,9 +35,10 @@ export default new Vuex.Store({
         fullSchedule: [],
         lastGameWeekPlayed: [],
         lastGameWeekResults: [],
-		nextGameWeekToBeBet: 22,
+		nextGameWeekToBeBet: 5,
 		nextGameWeekGames: [],
 		allPlayedGamesResults: [],
+		currentGameWeekGamesAdminView: [],
 
         //standings
         allStandings: [],
@@ -82,6 +83,9 @@ export default new Vuex.Store({
 		},
 		getIsAdmin(state) {
 			return state.isAdmin;
+		},
+		getCurrentGameWeekGamesAdminView(state) {
+			return state.currentGameWeekGamesAdminView;
 		},
 
         //schedule
@@ -134,6 +138,11 @@ export default new Vuex.Store({
 
 		getCurrentAuthStatus(state){
 			return state.status;
+		},
+
+		//admin
+		getNextGameWeekValue(state) {
+			return state.nextGameWeekToBeBet;
 		}
 
     },
@@ -194,6 +203,9 @@ export default new Vuex.Store({
 		setAllPlayedGamesResults(state, allPlayedGamesResults) {
 			state.allPlayedGamesResults = allPlayedGamesResults;
 		},
+		setCurrentGameWeekGamesAdminView(state, currentGameWeekGames) {
+			state.currentGameWeekGamesAdminView = currentGameWeekGames;
+		},
         
         //standings
         setAllStandings(state, standings) {
@@ -233,6 +245,11 @@ export default new Vuex.Store({
 		},
 		registration_success(state){
 			state.status = 'success'
+		},
+
+		//admin
+		updateGameWeekValue(state, gameWeekValue) {
+			state.nextGameWeekToBeBet = gameWeekValue;
 		}
 
     },
@@ -337,7 +354,6 @@ export default new Vuex.Store({
 				})
 			}
 		},
-
         //schedule
         getFullSchedule(context) {
 			context.commit('loadingStatus', true)
@@ -381,6 +397,18 @@ export default new Vuex.Store({
 			axios.get(this.state.domain + 'schedule/played/all')
 				.then(allPlayedGamesResults => {
 					context.commit('setAllPlayedGamesResults', allPlayedGamesResults)
+					context.commit('loadingStatus', false)
+				})
+				.catch(error => {
+					console.log(error)
+				})
+		},
+		getCurrentGameWeekGamesAdminView(context) {
+			context.commit('loadingStatus', true)
+
+			axios.get(this.state.domain + 'v1/schedule/scheduled/games-by-game-week/all/' + this.state.nextGameWeekToBeBet)
+				.then(nextGameWeekGames => {
+					context.commit('setCurrentGameWeekGamesAdminView', nextGameWeekGames)
 					context.commit('loadingStatus', false)
 				})
 				.catch(error => {
@@ -519,5 +547,38 @@ export default new Vuex.Store({
 					console.log(error)
 				})
 		},
+
+		//admin
+		updateGameWeekValue(context, gameWeekValue) {
+			context.commit('updateGameWeekValue', gameWeekValue.nextGameWeek)
+		},
+
+		updateGameStatusWithoutCalculations(context, gameDetails) {
+
+			let data = [
+				{
+					propName: 'gameStatus',
+					value: gameDetails.newGameStatus
+				},
+				{
+					propName: 'isGamePlayed',
+					value: gameDetails.isGamePlayed
+				}
+			];
+
+			axios.patch(this.state.domain + 'schedule/no-calculation-update/' + gameDetails.gameId, data,
+			{
+				headers: {
+					'Authorization': 'Bearer ' + this.state.token
+				}
+			}
+			)
+				.then(response => {
+					console.log(response)
+				})
+				.catch(error => {
+					return error;
+				})
+		}
     }
 });
