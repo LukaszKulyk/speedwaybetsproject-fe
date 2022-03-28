@@ -406,7 +406,7 @@ export default new Vuex.Store({
 		getCurrentGameWeekGamesAdminView(context) {
 			context.commit('loadingStatus', true)
 
-			axios.get(this.state.domain + 'v1/schedule/scheduled/games-by-game-week/all/' + this.state.nextGameWeekToBeBet)
+			axios.get(this.state.domain + 'schedule/v1/scheduled/games-by-game-week/all/' + this.state.nextGameWeekToBeBet)
 				.then(nextGameWeekGames => {
 					context.commit('setCurrentGameWeekGamesAdminView', nextGameWeekGames)
 					context.commit('loadingStatus', false)
