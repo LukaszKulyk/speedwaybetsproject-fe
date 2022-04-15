@@ -29,7 +29,7 @@ export default new Vuex.Store({
 
 		//registerStatus
 		registerStatus: null,
-		currentGameWeek: 1,
+		currentGameWeek: 2,
 
         //schedule
         fullSchedule: [],
