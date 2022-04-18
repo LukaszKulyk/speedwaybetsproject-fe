@@ -7,12 +7,7 @@
             </div>
             <div v-else>
                 <div v-if="this.$store.getters.getLastPlayerStandings.data.count > 0" data-test-id="standings-available">
-                    <h5>{{ $t('standingsPage.endSeasonText') }}</h5>
-                    <h3>{{ $t('standingsPage.seasonWinnersTableTitle') }}</h3>
-                    <div>
-                        <b-table stripped hover responsive :items="seasonWinnersData" :fields="seasonWinnersFields"></b-table>
-                    </div>
-                    <h3>{{ $t('standingsPage.endSeasonStandingsTitle') }}</h3>
+                    <h3>{{ $t('standingsPage.currentStandingsTitle') }}</h3>
                     <div>
                         <b-table striped hover responsive :items="lastPlayerStandings()" :fields="fields">
                         </b-table>
@@ -27,6 +22,11 @@
                 <div v-else data-test-id="no-standings-available-info">
                     <h2>{{ $t('standingsPage.ifNotStandings') }}</h2>
                 </div>
+            </div>
+            <!--<h5>{{ $t('standingsPage.endSeasonText') }}</h5>-->
+            <h3>{{ $t('standingsPage.seasonWinnersTableTitle') }}</h3>
+            <div>
+                <b-table stripped hover responsive :items="seasonWinnersData" :fields="seasonWinnersFields"></b-table>
             </div>
         </b-container>
     </div>
