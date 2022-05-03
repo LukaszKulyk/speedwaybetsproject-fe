@@ -579,6 +579,42 @@ export default new Vuex.Store({
 				.catch(error => {
 					return error;
 				})
+		},
+
+		updateGameStatusWithAllCalculations(context, gameDetails) {
+
+			let data = [
+				{
+					propName: 'gameStatus',
+					value: gameDetails.newGameStatus
+				},
+				{
+					propName: 'isGamePlayed',
+					value: gameDetails.isGamePlayed
+				},
+				{
+					propName: 'isGameWeekPlayed',
+					value: gameDetails.isGameWeekPlayed
+				},
+				{
+					propName: 'gameResult',
+					value: gameDetails.gameResult
+				}
+			];
+
+			axios.patch(this.state.domain + 'schedule/' + gameDetails.gameId, data,
+			{
+				headers: {
+					'Authorization': 'Bearer ' + this.state.token
+				}
+			}
+			)
+				.then(response => {
+					console.log(response)
+				})
+				.catch(error => {
+					return error;
+				})
 		}
     }
 });
