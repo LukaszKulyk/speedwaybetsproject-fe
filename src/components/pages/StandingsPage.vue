@@ -24,6 +24,10 @@
                 </div>
             </div>
             <!--<h5>{{ $t('standingsPage.endSeasonText') }}</h5>-->
+            <h3>{{ $t('standingsPage.secondSeasonWinnersTableTitle') }}</h3>
+            <div>
+                <b-table stripped hover responsive :items="secondSeasonWinnersData" :fields="secondSeasonWinnersFields"></b-table>
+            </div>
             <h3>{{ $t('standingsPage.seasonWinnersTableTitle') }}</h3>
             <div>
                 <b-table stripped hover responsive :items="seasonWinnersData" :fields="seasonWinnersFields"></b-table>
@@ -63,6 +67,24 @@ export default {
                 {
                     Position: '🥉',
                     Username: 'Karolcia',
+                    Award: 'MCS Speedway Card Game'
+                }
+            ],
+            secondSeasonWinnersFields: ['Position', 'Username', 'Award'],
+            secondSeasonWinnersData: [
+                {
+                    Position: '🥇',
+                    Username: 'Karolcia',
+                    Award: 'Two Speedway Tickets'
+                },
+                {
+                    Position: '🥈',
+                    Username: 'Jules',
+                    Award: 'SpeedwayBusines board game'
+                },
+                {
+                    Position: '🥉',
+                    Username: 'falubazluki',
                     Award: 'MCS Speedway Card Game'
                 }
             ]
