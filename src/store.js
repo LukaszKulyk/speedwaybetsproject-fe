@@ -29,13 +29,13 @@ export default new Vuex.Store({
 
 		//registerStatus
 		registerStatus: null,
-		currentGameWeek: 6,
+		currentGameWeek: 7,
 
         //schedule
         fullSchedule: [],
         lastGameWeekPlayed: [],
         lastGameWeekResults: [],
-		nextGameWeekToBeBet: 6,
+		nextGameWeekToBeBet: 7,
 		nextGameWeekGames: [],
 		allPlayedGamesResults: [],
 		currentGameWeekGamesAdminView: [],
